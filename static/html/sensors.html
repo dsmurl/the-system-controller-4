@@ -1,0 +1,16 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Sensor</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="sensor in sensors">
+            <td>{{ sensor.id }}</td>
+            <td>{{ sensor.label }}</td>
+            <td>Edit | Delete</td>
+        </tr>
+    </tbody>
+</table>

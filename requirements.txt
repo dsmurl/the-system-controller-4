@@ -1,0 +1,6 @@
+gevent
+webapp2
+Jinja2
+python-memcached
+peewee
+ws4py
