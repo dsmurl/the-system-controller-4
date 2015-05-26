@@ -1,0 +1,16 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Rules</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="rule in rules">
+            <td>{{ rule.id }}</td>
+            <td>{{ rule.label }}</td>
+            <td>Edit | Delete</td>
+        </tr>
+    </tbody>
+</table>
