@@ -4,3 +4,4 @@ Jinja2
 python-memcached
 peewee
 ws4py
+webob

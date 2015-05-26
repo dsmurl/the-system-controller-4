@@ -1,0 +1,16 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Device</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="device in devices">
+            <td>{{ device.id }}</td>
+            <td>{{ device.label }}</td>
+            <td>Edit | Delete</td>
+        </tr>
+    </tbody>
+</table>
