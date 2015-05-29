@@ -4,6 +4,7 @@ import traceback
 import uuid
 import urllib2
 import sys
+from lib import utils
 
 __author__ = 'faisal'
 
@@ -59,7 +60,7 @@ class Server(object):
             if hasattr(self.response, 'headers'):
                 self.response.headers['Content-Type'] = 'application/json'
             if hasattr(self.response, 'write'):
-                self.response.write(json.dumps(result))
+                self.response.write(json.dumps(result, default=utils.default_json_decode))
 
     def handle(self, request, response=None, data=None):
         self.response = response

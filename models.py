@@ -2,6 +2,7 @@ import datetime
 import inspect
 from peewee import *
 import sys
+from playhouse.shortcuts import model_to_dict
 from lib import utils
 
 
@@ -17,13 +18,16 @@ class BaseModel(Model):
         except cls.DoesNotExist:
             return None
 
+    def to_client(self):
+
+        return model_to_dict(self)
+
 
 class Sensor(BaseModel):
     created = DateTimeField(default=datetime.datetime.now)
-    controller_id = IntegerField(null=True)
 
     label = CharField(index=False)
-
+    code = CharField(index=False)
 
 """
 Anything under this line are managers for the models
