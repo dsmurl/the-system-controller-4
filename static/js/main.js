@@ -67,6 +67,22 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                     };
                 }]
             })
+            .when('/devices', {
+                templateUrl: 'html/devices.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
+                    Rpc.listDevice()
+                        .success(function (r) {
+                            $scope.devices = r.result;
+                        });
+                }]
+            })
+            .when('/rules', {
+                templateUrl: 'html/rules.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
+                    Rpc.listRule()
+                        .success(function (r) {
+                            $scope.rules = r.result;
+                        });
+                }]
+            })
             .otherwise({redirectTo: '/'});
     }]);
 
@@ -90,6 +106,12 @@ angular.module('appServices', ['angular-json-rpc'])
                 },
                 saveSensor: function (sensor) {
                     return rpcRequest('save_sensor', {data: sensor});
+                },
+                listDevice: function () {
+                    return rpcRequest('list_device');
+                },
+                listRule: function () {
+                    return rpcRequest('list_rule');
                 }
             };
         }]);

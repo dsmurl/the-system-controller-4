@@ -42,3 +42,53 @@ class ApiHandler(RpcHandler):
             sensor.delete_instance()
             return True
         return False
+    
+    def list_device(self):
+
+        return [
+            {
+                'id': 1,
+                'label': 'Maintanence Light',
+            },
+            {
+                'id': 2,
+                'label': 'Water Solenoid 1',
+            },
+            {
+                'id': 3,
+                'label': 'Water Solenoid 2',
+            },
+            {
+                'id': 4,
+                'label': 'Water Solenoid 3',
+            },
+            {
+                'id': 5,
+                'label': 'Fan 1',
+            },
+            {
+                'id': 6,
+                'label': 'Fan 2',
+            }
+        ]
+
+    def list_rule(self):
+
+        return [
+            {
+                'id': 1,
+                'label': 'Turn on the maintenance light at night.',
+            },
+            {
+                'id': 2,
+                'label': 'Turn on water when moisture is low.',
+            },
+            {
+                'id': 3,
+                'label': 'Turn on fan when heat is high.',
+            },
+            {
+                'id': 4,
+                'label': 'Turn on the CO2 tank when CO2 is low.',
+            }
+        ]

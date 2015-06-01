@@ -23,4 +23,4 @@ session_backend = 'mc_session'
 rate_limit = None
 
 # todo move this maybe /var/somewhere
-db = '/tmp/gardencontroller.db'
+db = '/tmp/systemcontroller.db'
