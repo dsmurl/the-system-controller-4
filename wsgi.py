@@ -11,6 +11,8 @@ from lib import basehandler, utils
 from ws4py.websocket import EchoWebSocket
 from ws4py.server.geventserver import WSGIServer
 from ws4py.server.wsgiutils import WebSocketWSGIApplication
+import gevent.monkey;
+gevent.monkey.patch_all()
 
 
 models.create_tables()

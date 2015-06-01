@@ -1,4 +1,6 @@
+import calendar
 import logging
+import datetime
 import gevent
 from peewee import SqliteDatabase
 import config
@@ -27,3 +29,16 @@ def get_db():
         DB = SqliteDatabase(config.db)
 
     return DB
+
+
+def default_json_decode(obj):
+
+    if isinstance(obj, datetime.datetime):
+        if obj.utcoffset() is not None:
+            obj = obj - obj.utcoffset()
+    millis = int(
+        calendar.timegm(obj.timetuple()) * 1000 +
+        obj.microsecond / 1000
+    )
+
+    return millis

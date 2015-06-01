@@ -10,7 +10,17 @@
         <tr data-ng-repeat="sensor in sensors">
             <td>{{ sensor.id }}</td>
             <td>{{ sensor.label }}</td>
-            <td>Edit | Delete</td>
+            <td>
+                <a class="btn btn-info" href="#/sensor/{{ sensor.id }}">Edit</a>
+                <button class="btn btn-danger" data-ng-click="deleteSensor($index)">Delete</button>
+            </td>
         </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">
+                <a class="btn btn-default pull-right" href="#/sensor/0">Add</a>
+            </td>
+        </tr>
+    </tfoot>
 </table>
