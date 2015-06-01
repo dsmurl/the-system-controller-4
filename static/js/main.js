@@ -55,7 +55,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
 
                     Rpc.getSensor(sensorId)
                         .success(function (r) {
-                            $scope.sensors = r.result;
+                            $scope.sensor = r.result;
                         });
 
                     $scope.save = function () {
