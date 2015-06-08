@@ -73,6 +73,16 @@ Install the code.  Go to github.com and get the current code or prefered revisio
 Install the gevent dependancies:
 
 	:> sudo pip install gevent
+	:> sudo pip install webapp2
+	:> sudo pip install webob
+	:> sudo pip install python-memcached
+	:> sudo pip install ws4py
+	:> sudo pip install jinja2
+	:> sudo pip install peewee
+
+Stop Apahce2 ( or get it off listening to port 8080):
+	
+	:> sudo service apache2 stop
 	
 Run the code and check the site:
 
