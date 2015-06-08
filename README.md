@@ -38,6 +38,8 @@ look like this:
 	    netmask 255.255.255.0
 	    gateway 192.168.0.1
 
+Now take the Beaglebone off the USB connection and add power to from the AC adapter and give it a hard line connection to your network router.  It needs it's own network adress and internet access to continue to install the code and the dependancies.  The USB connection has trouble providing the BBB with outer web.
+
 Set the corret time:
 
 	:> sudo ntpdate pool.ntp.org
@@ -66,10 +68,6 @@ Should result in:
 
 	<module 'Adafruit_BBIO.GPIO' from '/usr/local/lib/python2.7/dist-packages/Adafruit_BBIO/GPIO.so'>
 
-Install the code.  Go to github.com and get the current code or prefered revision, like:
-
-	:> git clone https://github.com/dsmurl/SystemController4.git
-
 Install the gevent dependancies:
 
 	:> sudo pip install gevent
@@ -83,7 +81,11 @@ Install the gevent dependancies:
 Stop Apahce2 ( or get it off listening to port 8080):
 	
 	:> sudo service apache2 stop
-	
+
+Install the code.  Go to github.com and get the current code or prefered revision, like:
+
+	:> git clone https://github.com/dsmurl/SystemController4.git
+
 Run the code and check the site:
 
 	:> cd SystemController4
