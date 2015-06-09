@@ -9,9 +9,6 @@ PyThon Dev libraries
 
 Ssh in:
 	Plug in BeagleBone via USB
-	If needed  ->  ssh-keygen -f "/home/dsmurl/.ssh/known_hosts" -R 192.168.7.2
-
-	or 
 
 	ssh root@192.168.7.2
 
