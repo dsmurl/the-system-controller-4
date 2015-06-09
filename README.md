@@ -26,13 +26,13 @@ Make the networking through the router work.  Change the networking over to prim
 	    netmask 255.255.255.0
 	    gateway 192.168.0.1
 
-Now take the Beaglebone off the USB connection and add power to from the AC adapter and give it a hard line connection to your network router.  It needs it's own network adress and internet access to continue to install the code and the dependancies.  The USB connection has trouble providing the BBB with outer web.
+Now take the Beaglebone off the USB connection and add power to from the AC adapter and give it a hard line connection to your network router.  It needs it's own network address and internet access to continue to install the code and the dependencies.  The USB connection has trouble providing the BeagleBone with outer web.
 
-Set the corret time:
+Set the correct time:
 
 	:> sudo ntpdate pool.ntp.org
 
-Install the python pin IO library dependancies.  Turns on and off pins, reads analog input 
+Install the python pin IO library dependencies.  Turns on and off pins, reads analog input
 pins from python:
 
 	:> sudo apt-get update
@@ -56,7 +56,7 @@ Should result in:
 
 	<module 'Adafruit_BBIO.GPIO' from '/usr/local/lib/python2.7/dist-packages/Adafruit_BBIO/GPIO.so'>
 
-Install the gevent dependancies:
+Install the gevent dependencies:
 
 	:> sudo pip install gevent
 	:> sudo pip install webapp2
@@ -70,11 +70,11 @@ Stop Apahce2 ( or get it off listening to port 8080):
 	
 	:> update-rc.d apache2 disable
 
-For later reference, you can add the apache autostart back in with:
+For later reference, you can add the apache auto-start back in with:
 
 	:> update-rc.d apache2 enable
 
-Install the code.  Go to github.com and get the current code or prefered revision, like:
+Install the code.  Find the revision you want on GitHub.com and git clone the current code or preferred revision, like:
 
 	:> git clone https://github.com/dsmurl/SystemController4.git
 
