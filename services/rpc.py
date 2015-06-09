@@ -2,7 +2,7 @@ import logging
 from lib.basehandler import RpcHandler
 from lib.jsonrpc import ServerException
 import models
-
+import Adafruit_BBIO.GPIO as GPIO
 
 class ApiHandler(RpcHandler):
 
@@ -92,3 +92,17 @@ class ApiHandler(RpcHandler):
                 'label': 'Turn on the CO2 tank when CO2 is low.',
             }
         ]
+
+    def toggle_led( self, on_off ):
+
+        if on_off:
+            direction = GPIO.HIGH
+        else:
+            direction = GPIO.LOW
+
+        GPIO.setup("P8_10", GPIO.OUT)
+        GPIO.output("P8_10", direction)
+        GPIO.cleanup()
+
+        return on_off
+

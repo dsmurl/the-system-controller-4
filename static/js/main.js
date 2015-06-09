@@ -85,8 +85,15 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
             })
             .when('/poc', {
                 templateUrl: 'html/poc.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
-                    
+                    $scope.led_value = false;
 
+                    # Handler for the the toggle LED button click
+                    $scope.toggleLed = function () {
+                        Rpc.toggleLed( !$scope.led_value )    # Swap the led_value and call the RPC
+                            .success( function (r) {
+                                $scope.led_value = r
+                            } );
+                    };
                 }]
             })
             .otherwise({redirectTo: '/'});
