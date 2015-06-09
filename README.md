@@ -1,32 +1,23 @@
 # SystemController4
 This is the working code of the system controller build for industrial systems management.
 
-# Requirements:
-PyThon Dev libraries
-
 
 # Install the code on a BeagleBone Black and get the site running
 
-Ssh in:
-	Plug in BeagleBone via USB
+To ssh in, plug in BeagleBone via USB and then:
 
 	ssh root@192.168.7.2
 
-Change root to password:
+Change root to password, ssh in as root then:
 
-	ssh as root then:
 	:> passwd
-		
 
-Add a personal user/password and add them to the admin group.  admin is needed 
-to have sudo rights:
+Add a personal user/password and add them to the admin group.  admin is needed to have sudo rights:
 
 	:> adduser USERNAME
 	:> usermod -a -G admin USERNAME
 
-Make the networking through the router work.  Change the networking over to primary 
-eth0 availability by editing /etc/network/interfaces.  Edit the primary section to 
-look like this:
+Make the networking through the router work.  Change the networking over to primary eth0 availability by editing /etc/network/interfaces.  Edit the primary section to look like this:
 
 	# The primary network interface
 	allow-hotplug eth0
@@ -77,7 +68,11 @@ Install the gevent dependancies:
 
 Stop Apahce2 ( or get it off listening to port 8080):
 	
-	:> sudo service apache2 stop
+	:> update-rc.d apache2 disable
+
+For later reference, you can add the apache autostart back in with:
+
+	:> update-rc.d apache2 enable
 
 Install the code.  Go to github.com and get the current code or prefered revision, like:
 
@@ -87,6 +82,3 @@ Run the code and check the site:
 
 	:> cd SystemController4
 	:> python wsgi.py
-
-	
-
