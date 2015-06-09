@@ -83,6 +83,12 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         });
                 }]
             })
+            .when('/poc', {
+                templateUrl: 'html/poc.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
+                    
+
+                }]
+            })
             .otherwise({redirectTo: '/'});
     }]);
 
