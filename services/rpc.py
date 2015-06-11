@@ -96,11 +96,14 @@ class ApiHandler(RpcHandler):
     def toggle_led(self, on_off):
 
         logging.debug("1")
+        logging.debug(on_off)
 
         if on_off:
             direction = GPIO.HIGH
+            logging.debug("HIGH")
         else:
             direction = GPIO.LOW
+            logging.debug("LOW")
 
         logging.debug("2")
 
