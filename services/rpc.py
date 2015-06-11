@@ -98,18 +98,16 @@ class ApiHandler(RpcHandler):
         logging.debug("1")
         logging.debug(on_off)
 
-        if on_off:
-            direction = GPIO.HIGH
-            logging.debug("HIGH")
-        else:
-            direction = GPIO.LOW
-            logging.debug("LOW")
-
         logging.debug("2")
 
         GPIO.setup("P9_11", GPIO.OUT)
-        GPIO.output("P9_11", direction)
-        GPIO.cleanup()
+        if on_off:
+            GPIO.output("P9_11", GPIO.HIGH)
+            logging.debug("HIGH")
+        else:
+            GPIO.output("P9_11", GPIO.LOW)
+            logging.debug("LOW")
+        # GPIO.cleanup()
 
         logging.debug("3")
 
