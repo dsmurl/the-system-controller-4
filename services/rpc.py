@@ -95,21 +95,19 @@ class ApiHandler(RpcHandler):
 
     def toggle_led(self, on_off):
 
-        logging.debug("1")
+        logging.debug("Running toggle_led...")
         logging.debug(on_off)
-
-        logging.debug("2")
 
         GPIO.setup("P9_11", GPIO.OUT)
         if on_off:
             GPIO.output("P9_11", GPIO.HIGH)
-            logging.debug("HIGH")
+            logging.debug("Setting P9_11 to HIGH")
         else:
             GPIO.output("P9_11", GPIO.LOW)
-            logging.debug("LOW")
-        # GPIO.cleanup()
+            logging.debug("Setting P9_11 to LOW")
+        # GPIO.cleanup()   # Doesn't need to cleanup here, but somewhere as closing or something
 
-        logging.debug("3")
+        logging.debug("Done with toggle_led")
 
         return on_off
 
