@@ -126,8 +126,8 @@ angular.module('appServices', ['angular-json-rpc'])
                 listRule: function () {
                     return rpcRequest('list_rule');
                 },
-                toggleLed: function () {
-                    return rpcRequest('toggle_led');
+                toggleLed: function (desiredSwitchValue) {
+                    return rpcRequest('toggle_led', {on_off: desiredSwitchValue});
                 }
             };
         }]);
