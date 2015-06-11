@@ -107,8 +107,8 @@ class ApiHandler(RpcHandler):
 
         logging.debug("2")
 
-        GPIO.setup("P9_42", GPIO.OUT)
-        GPIO.output("P9_42", direction)
+        GPIO.setup("P9_11", GPIO.OUT)
+        GPIO.output("P9_11", direction)
         GPIO.cleanup()
 
         logging.debug("3")
