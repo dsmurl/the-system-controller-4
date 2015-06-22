@@ -3,7 +3,7 @@
 
 angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
     .run(function ($websocket) {
-        var ws = $websocket.$new('ws://192.168.0.31:9000');
+        var ws = $websocket.$new('ws://' + window.location.hostname + ':9000');
 
         ws.$on('$open', function () {
             console.log('Opened');
