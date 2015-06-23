@@ -103,5 +103,5 @@ def create_tables():
     """
     db = utils.get_db()
     db.connect()
-    db.create_tables(utils.get_members_by_parent(__name__, BaseModel), True)
+    db.create_tables(utils.get_members_by_parent(__name__, BaseModel).values(), True)
     db.close()
