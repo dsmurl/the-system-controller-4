@@ -103,6 +103,11 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                     };
                 }]
             })
+            .when('/logs', {
+                templateUrl: 'html/logs.html',   controller: function ($scope) {
+
+                }
+            })
             .otherwise({redirectTo: '/'});
     }]);
 
