@@ -56,7 +56,7 @@ class Sensor(BaseModel):
     created = DateTimeField(default=datetime.datetime.now)
 
     label = CharField(index=False)
-    code = CharField(index=False)
+    pin = CharField(index=False)
 
 
 class Device(BaseModel):

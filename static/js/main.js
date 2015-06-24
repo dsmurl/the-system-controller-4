@@ -68,11 +68,39 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                 }]
             })
             .when('/devices', {
-                templateUrl: 'html/devices.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
+                templateUrl: 'html/devices.html',   controller: ['$scope', 'Rpc', function ($scope, Rpc) {
                     Rpc.listDevice()
                         .success(function (r) {
                             $scope.devices = r.result;
                         });
+
+                    $scope.deleteDevice = function (index) {
+                        var deviceId = $scope.devices[index].id;
+                        Rpc.deleteDevice(deviceId)
+                            .success(function (r) {
+                                if (r.result) {
+                                    $scope.devices.splice(index, 1);
+                                }
+                            });
+                    }
+                }]
+            })
+            .when('/device/:id', {
+                templateUrl: 'html/device-edit.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
+                    var deviceId = parseInt($routeParams.id);
+
+                    Rpc.getDevice(deviceId)
+                        .success(function (r) {
+                            $scope.device = r.result;
+                        });
+
+                    $scope.save = function () {
+                        Rpc.saveDevice($scope.device)
+                            .success(function (r) {
+                                $location.path('/devices');
+                                // or $scope.device = r.result to update current scope
+                            });
+                    };
                 }]
             })
             .when('/rules', {
@@ -95,6 +123,7 @@ angular.module('appServices', ['angular-json-rpc'])
             };
 
             return {
+                // Sensor Section
                 listSensor: function () {
                     return rpcRequest('list_sensor');
                 },
@@ -107,9 +136,22 @@ angular.module('appServices', ['angular-json-rpc'])
                 saveSensor: function (sensor) {
                     return rpcRequest('save_sensor', {data: sensor});
                 },
+
+                // Device Section
                 listDevice: function () {
                     return rpcRequest('list_device');
                 },
+                getDevice: function (id) {
+                    return rpcRequest('get_device', {device_id: id});
+                },
+                deleteDevice: function (id) {
+                    return rpcRequest('delete_device', {device_id: id});
+                },
+                saveDevice: function (device) {
+                    return rpcRequest('save_device', {data: device});
+                },
+
+                // Rule section
                 listRule: function () {
                     return rpcRequest('list_rule');
                 }

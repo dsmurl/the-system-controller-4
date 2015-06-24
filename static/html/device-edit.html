@@ -1,0 +1,24 @@
+<form class="form-horizontal">
+
+    <div class="form-group">
+        <label for="deviceLabel" class="col-sm-2 control-label">Device Label</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="deviceLabel" placeholder="Label" data-ng-model="device.label">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="devicePin" class="col-sm-2 control-label">Device Digital Pin</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="devicePin" placeholder="Pin" data-ng-model="device.pin">
+        </div>
+    </div>
+
+    <input type="hidden" data-ng-model="device.id" />
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" class="btn btn-default" data-ng-click="save()">Save</button>
+        </div>
+    </div>
+</form>

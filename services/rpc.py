@@ -6,9 +6,10 @@ import models
 
 class ApiHandler(RpcHandler):
 
+# Sensor Section
     def list_sensor(self):
 
-        sensors = models.Sensor.select().order_by(models.Sensor.label)
+        sensors = models.Sensor.select().order_by(models.Sensor.id)
 
         return [sensor.to_client() for sensor in sensors]
 
@@ -29,7 +30,7 @@ class ApiHandler(RpcHandler):
             sensor = models.Sensor()
 
         sensor.label = data.get('label')
-        sensor.code = data.get('code')
+        sensor.pin = data.get('pin')
         sensor.save()
 
         return sensor.to_client()
@@ -42,36 +43,47 @@ class ApiHandler(RpcHandler):
             sensor.delete_instance()
             return True
         return False
-    
+
+# Device Section
     def list_device(self):
 
-        return [
-            {
-                'id': 1,
-                'label': 'Maintanence Light',
-            },
-            {
-                'id': 2,
-                'label': 'Water Solenoid 1',
-            },
-            {
-                'id': 3,
-                'label': 'Water Solenoid 2',
-            },
-            {
-                'id': 4,
-                'label': 'Water Solenoid 3',
-            },
-            {
-                'id': 5,
-                'label': 'Fan 1',
-            },
-            {
-                'id': 6,
-                'label': 'Fan 2',
-            }
-        ]
+        devices = models.Device.select().order_by(models.Device.id)
 
+        return [device.to_client() for device in devices]
+
+    def get_device(self, device_id):
+
+        device = models.Device.get_by_id(device_id)
+
+        if not device:
+            device = models.Device()
+
+        return device.to_client()
+
+    def save_device(self, data):
+        id = data.get('id')
+        if id:
+            device = models.Device.get_by_id(id)
+        else:
+            device = models.Device()
+
+        device.label = data.get('label')
+        device.pin = data.get('pin')
+        device.value = False    # Always starts as False
+        device.save()
+
+        return device.to_client()
+
+    def delete_device(self, device_id):
+
+        device = models.Device.get_by_id(device_id)
+
+        if device:
+            device.delete_instance()
+            return True
+        return False
+
+# Rule Section
     def list_rule(self):
 
         return [

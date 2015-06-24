@@ -3,14 +3,28 @@
         <tr>
             <th>ID</th>
             <th>Device</th>
-            <th></th>
+            <th>Digital Pin</th>
+            <th>Value</th>
+            <th width=150px></th>
         </tr>
     </thead>
     <tbody>
         <tr data-ng-repeat="device in devices">
             <td>{{ device.id }}</td>
             <td>{{ device.label }}</td>
-            <td>Edit | Delete</td>
+            <td>{{ device.pin }}</td>
+            <td>{{ device.value }}</td>
+            <td>
+                <a class="btn btn-info" href="#/device/{{ device.id }}">Edit</a>
+                <button class="btn btn-danger" data-ng-click="deleteDevice($index)">Delete</button>
+            </td>
         </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5">
+                <a class="btn btn-default pull-right" href="#/device/0">Add</a>
+            </td>
+        </tr>
+    </tfoot>
 </table>
