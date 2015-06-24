@@ -3,7 +3,7 @@
 
 angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
     .run(function ($websocket) {
-        var ws = $websocket.$new('ws://localhost:9000');
+        var ws = $websocket.$new('ws://' + window.location.hostname + ':9000');
 
         ws.$on('$open', function () {
             console.log('Opened');
@@ -83,6 +83,31 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         });
                 }]
             })
+            .when('/poc', {
+                templateUrl: 'html/poc.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
+                    $scope.led_value = false;
+
+                    console.log("init led_value = " + $scope.led_value);
+
+                    // Handler for the the toggle LED button click
+                    $scope.toggleLed = function () {
+                    console.log("Called toggleLed with led_value = " + $scope.led_value)
+
+                        Rpc.toggleLed(!$scope.led_value)    // Swap the led_value and call the RPC
+                            .success(function (r) {
+                                console.log("Success with led_value = " + $scope.led_value);
+                                console.log(r);
+
+                                $scope.led_value = ! $scope.led_value;
+                            });
+                    };
+                }]
+            })
+            .when('/logs', {
+                templateUrl: 'html/logs.html',   controller: function ($scope) {
+
+                }
+            })
             .otherwise({redirectTo: '/'});
     }]);
 
@@ -112,6 +137,9 @@ angular.module('appServices', ['angular-json-rpc'])
                 },
                 listRule: function () {
                     return rpcRequest('list_rule');
+                },
+                toggleLed: function (desiredSwitchValue) {
+                    return rpcRequest('toggle_led', {on_off: desiredSwitchValue});
                 }
             };
         }]);

@@ -2,7 +2,7 @@ import logging
 from lib.basehandler import RpcHandler
 from lib.jsonrpc import ServerException
 import models
-
+import Adafruit_BBIO.GPIO as GPIO
 
 class ApiHandler(RpcHandler):
 
@@ -92,3 +92,22 @@ class ApiHandler(RpcHandler):
                 'label': 'Turn on the CO2 tank when CO2 is low.',
             }
         ]
+
+    def toggle_led(self, on_off):
+
+        logging.debug("Running toggle_led...")
+        logging.debug(on_off)
+
+        GPIO.setup("P9_11", GPIO.OUT)
+        if on_off:
+            GPIO.output("P9_11", GPIO.HIGH)
+            logging.debug("Setting P9_11 to HIGH")
+        else:
+            GPIO.output("P9_11", GPIO.LOW)
+            logging.debug("Setting P9_11 to LOW")
+        # GPIO.cleanup()   # Doesn't need to cleanup here, but somewhere as closing or something
+
+        logging.debug("Done with toggle_led")
+
+        return on_off
+

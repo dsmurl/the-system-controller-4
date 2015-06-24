@@ -38,15 +38,9 @@ pins from python:
 	:> sudo apt-get update
 	:> sudo apt-get install build-essential python-setuptools python-pip python-smbus
 
-Install the IO lib through pip:
+Install the IO lib through pip and other dependencies:
 
-	:> sudo pip install Adafruit_BBIO
-
-May result in:
-
-	Requirement already satisfied (use --upgrade to upgrade): Adafruit-BBIO in 
-	/usr/local/lib/python2.7/dist-packages
-	leaning up...
+	:> sudo pip install Adafruit_BBIO gevent webapp2 webob python-memcached ws4py jinja2 peewee
 
 Test your install with:
 
@@ -55,16 +49,6 @@ Test your install with:
 Should result in:
 
 	<module 'Adafruit_BBIO.GPIO' from '/usr/local/lib/python2.7/dist-packages/Adafruit_BBIO/GPIO.so'>
-
-Install the gevent dependencies:
-
-	:> sudo pip install gevent
-	:> sudo pip install webapp2
-	:> sudo pip install webob
-	:> sudo pip install python-memcached
-	:> sudo pip install ws4py
-	:> sudo pip install jinja2
-	:> sudo pip install peewee
 
 Stop Apahce2 ( or get it off listening to port 8080):
 	
