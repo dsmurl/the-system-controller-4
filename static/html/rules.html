@@ -2,15 +2,29 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Rules</th>
-            <th></th>
+            <th>Rule</th>
+            <th>Enabled</th>
+            <th>Conditions</th>
+            <th width=150px></th>
         </tr>
     </thead>
     <tbody>
         <tr data-ng-repeat="rule in rules">
             <td>{{ rule.id }}</td>
             <td>{{ rule.label }}</td>
-            <td>Edit | Delete</td>
+            <td>{{ rule.enabled }}</td>
+            <td>{{ rule.conditions }}</td>
+            <td>
+                <a class="btn btn-info" href="#/rule/{{ rule.id }}">Edit</a>
+                <button class="btn btn-danger" data-ng-click="deleteRule($index)">Delete</button>
+            </td>
         </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5">
+                <a class="btn btn-default pull-right" href="#/rule/0">Add</a>
+            </td>
+        </tr>
+    </tfoot>
 </table>

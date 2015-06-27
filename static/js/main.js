@@ -109,6 +109,55 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         .success(function (r) {
                             $scope.rules = r.result;
                         });
+
+                    $scope.deleteRule = function (index) {
+                        var ruleId = $scope.sensors[index].id;
+                        Rpc.deleteRule(ruleId)
+                            .success(function (r) {
+                                if (r.result) {
+                                    $scope.rules.splice(index, 1);
+                                }
+                            });
+                    };
+
+                }]
+            })
+            .when('/rule/:id', {
+                templateUrl: 'html/rule-edit.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
+                    var ruleId = parseInt($routeParams.id);
+
+                    Rpc.getRule(ruleId)
+                        .success(function (r) {
+                            $scope.rule = r.result;
+                        });
+
+                    $scope.save = function () {
+                        Rpc.saveRule($scope.rule)
+                            .success(function (r) {
+                                $location.path('/rules');
+                                // or $scope.device = r.result to update current scope
+                            });
+                    };
+
+
+                    $scope.devices = [];
+                    $scope.sensors = [];
+                    $scope.operators = [];
+
+                    Rpc.listSensor()
+                        .success(function (r) {
+                            $scope.sensors = r.result;
+                        });
+
+                    Rpc.listDevice()
+                        .success(function (r) {
+                            $scope.devices = r.result;
+                        });
+
+                    Rpc.listOperator()
+                        .success(function (r) {
+                            $scope.operators = r.result;
+                        });
                 }]
             })
             .when('/poc', {
@@ -180,6 +229,20 @@ angular.module('appServices', ['angular-json-rpc'])
                 listRule: function () {
                     return rpcRequest('list_rule');
                 },
+                getRule: function (id) {
+                    return rpcRequest('get_rule', {rule_id: id});
+                },
+                deleteRule: function (id) {
+                    return rpcRequest('delete_rule', {rule_id: id});
+                },
+                saveRule: function (rule) {
+                    return rpcRequest('save_rule', {data: rule});
+                },
+
+                listOperator: function () {
+                    return rpcRequest('list_operator');
+                },
+
                 toggleLed: function (desiredSwitchValue) {
                     return rpcRequest('toggle_led', {on_off: desiredSwitchValue});
                 }

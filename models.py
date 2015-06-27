@@ -91,6 +91,14 @@ class Rule(BaseModel):
 
         return json.loads(self.conditions)
 
+    def to_client(self):
+
+        data = model_to_dict(self)
+        data['conditions'] = self.get_conditions()
+
+        return data
+
+
 """
 Anything under this line are managers for the models
 """

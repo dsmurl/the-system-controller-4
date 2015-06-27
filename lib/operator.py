@@ -2,7 +2,9 @@
 
 class Operator(object):
 
-    pass
+    def key(self):
+
+        return self.__class__.__name__
 
 
 class GreaterThan(Operator):

@@ -1,0 +1,32 @@
+<form class="form-horizontal">
+
+    <div class="form-group">
+        <label for="deviceLabel" class="col-sm-2 control-label">Rule Label</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="ruleLabel" placeholder="Label" data-ng-model="rule.label">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="deviceLabel" class="col-sm-2 control-label">Conditions</label>
+        <div class="col-sm-10" data-ng-repeat="condition in rule.conditions">
+            <div class="col-sm-3">
+                <select class="form-control" data-ng-model="selectedFirstArg" data-ng-options="device.id as device.label for device in $parent.devices"></select>
+            </div>
+            <div class="col-sm-3">
+                <select class="form-control" data-ng-model="selectedOperators" data-ng-options="operator.key as operator.label for operator in $parent.operators"></select>
+            </div>
+            <div class="col-sm-3">
+                <select class="form-control" data-ng-model="selected2ndArg" data-ng-options="sensor.id as sensor.label for sensor in $parent.sensors"></select>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" data-ng-model="rule.id" />
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" class="btn btn-default" data-ng-click="save()">Save</button>
+        </div>
+    </div>
+</form>

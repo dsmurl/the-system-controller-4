@@ -1,12 +1,13 @@
 import logging
+from lib import utils, operator
 from lib.basehandler import RpcHandler
 from lib.jsonrpc import ServerException
 import models
-import Adafruit_BBIO.GPIO as GPIO
+# import Adafruit_BBIO.GPIO as GPIO
 
 class ApiHandler(RpcHandler):
 
-# Sensor Section
+    # Sensor Section
     def list_sensor(self):
 
         sensors = models.Sensor.select().order_by(models.Sensor.id)
@@ -44,7 +45,7 @@ class ApiHandler(RpcHandler):
             return True
         return False
 
-# Device Section
+    # Device Section
     def list_device(self):
 
         devices = models.Device.select().order_by(models.Device.id)
@@ -83,28 +84,60 @@ class ApiHandler(RpcHandler):
             return True
         return False
 
-# Rule Section
+    # Rule Section
     def list_rule(self):
 
-        return [
-            {
-                'id': 1,
-                'label': 'Turn on the maintenance light at night.',
-            },
-            {
-                'id': 2,
-                'label': 'Turn on water when moisture is low.',
-            },
-            {
-                'id': 3,
-                'label': 'Turn on fan when heat is high.',
-            },
-            {
-                'id': 4,
-                'label': 'Turn on the CO2 tank when CO2 is low.',
-            }
-        ]
+        rules = models.Rule.select().order_by(models.Rule.id)
 
+        return [rule.to_client() for rule in rules]
+
+    def get_rule(self, rule_id):
+
+        rule = models.Rule.get_by_id(rule_id)
+
+        if not rule:
+            rule = models.Rule()
+
+        return rule.to_client()
+
+    def save_rule(self, data):
+        id = data.get('id')
+        if id:
+            rule = models.Rule.get_by_id(id)
+        else:
+            rule = models.Rule()
+
+        rule.label = data.get('label')
+        rule.enabled = data.get('enabled') == '1'
+        rule.set_conditions(data.get('conditions'))
+        rule.save()
+
+        return rule.to_client()
+
+    def delete_rule(self, rule_id):
+
+        rule = models.Rule.get_by_id(rule_id)
+
+        if rule:
+            rule.delete_instance()
+            return True
+        return False
+
+    def list_operator(self):
+
+        operators = utils.get_members_by_parent(operator, operator.Operator)
+        result = []
+
+        for op in operators.values():
+            data = op()
+            result.append({
+                'key': data.key(),
+                'label': str(data)
+            })
+
+        return result
+
+    # POC Section
     def toggle_led(self, on_off):
 
         logging.debug("Running toggle_led...")
