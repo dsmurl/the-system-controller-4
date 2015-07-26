@@ -120,6 +120,13 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                             });
                     };
 
+                    $scope.runRule = function (ruleId) {
+                        Rpc.runRule(ruleId)
+                            .success(function (r) {
+                                alert('Result: ' + r.result);
+                            });
+                    };
+
                 }]
             })
             .when('/rule/:id', {
@@ -139,6 +146,26 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                             });
                     };
 
+                    $scope.addCondition = function () {
+                        $scope.rule.conditions.push([null, null, null]);
+                    };
+
+                    $scope.deleteCondition = function (index) {
+                        $scope.rule.conditions.splice(index, 1);
+                    };
+
+                    $scope.getDeviceAndSensors = function () {
+                        var data = [];
+                        angular.forEach($scope.sensors, function (sensor) {
+                            data.push(sensor);
+                        });
+
+                        angular.forEach($scope.devices, function (device) {
+                           data.push(device);
+                        });
+
+                        return data;
+                    };
 
                     $scope.devices = [];
                     $scope.sensors = [];
@@ -241,6 +268,10 @@ angular.module('appServices', ['angular-json-rpc'])
 
                 listOperator: function () {
                     return rpcRequest('list_operator');
+                },
+
+                runRule: function (id) {
+                    return rpcRequest('run_rule', {rule_id: id});
                 },
 
                 toggleLed: function (desiredSwitchValue) {

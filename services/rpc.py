@@ -1,5 +1,5 @@
 import logging
-from lib import utils, operator
+from lib import utils, operator, evaluator
 from lib.basehandler import RpcHandler
 from lib.jsonrpc import ServerException
 import models
@@ -136,6 +136,12 @@ class ApiHandler(RpcHandler):
             })
 
         return result
+
+    def run_rule(self, rule_id):
+
+        run = evaluator.Evaluate(models.Rule.get_by_id(rule_id))
+
+        return run.evaluate()
 
     # POC Section
     def toggle_led(self, on_off):

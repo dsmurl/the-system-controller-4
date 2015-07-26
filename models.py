@@ -58,6 +58,17 @@ class Sensor(BaseModel):
     label = CharField(index=False)
     pin = CharField(index=False)
 
+    def value(self):
+        # todo implement sensor value get
+        return '1'
+
+    def to_client(self):
+
+        data = model_to_dict(self)
+        data['key'] = self.key('value')
+
+        return data
+
 
 class Device(BaseModel):
     created = DateTimeField(default=datetime.datetime.now)
@@ -65,6 +76,13 @@ class Device(BaseModel):
     label = CharField(index=False)
     pin = CharField(index=False)
     value = BooleanField(index=False)
+
+    def to_client(self):
+
+        data = model_to_dict(self)
+        data['key'] = self.key('value')
+
+        return data
 
 
 class Rule(BaseModel):

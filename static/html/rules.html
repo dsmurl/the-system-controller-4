@@ -14,9 +14,10 @@
             <td>{{ rule.label }}</td>
             <td>{{ rule.enabled }}</td>
             <td>{{ rule.conditions }}</td>
-            <td>
+            <td width="20%">
                 <a class="btn btn-info" href="#/rule/{{ rule.id }}">Edit</a>
                 <button class="btn btn-danger" data-ng-click="deleteRule($index)">Delete</button>
+                <button class="btn btn-warning" data-ng-click="runRule(rule.id)">Run Rule</button>
             </td>
         </tr>
     </tbody>
