@@ -50,7 +50,7 @@ Should result in:
 
 	<module 'Adafruit_BBIO.GPIO' from '/usr/local/lib/python2.7/dist-packages/Adafruit_BBIO/GPIO.so'>
 
-Stop Apahce2 ( or get it off listening to port 8080):
+Disable Apache2 ( or get it off listening to port 8080):
 	
 	:> update-rc.d apache2 disable
 
