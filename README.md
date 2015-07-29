@@ -2,7 +2,7 @@
 This is the working code of the system controller V4 build for grass roots industrial systems management.
 
 
-# Install the code on a BeagleBone Black and get the site running
+# Install the code on a BeagleBone Black and get the application running
 
 To ssh in, plug in BeagleBone via USB and then:
 
