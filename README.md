@@ -65,4 +65,4 @@ Install the code.  Find the revision you want on GitHub.com and git clone the cu
 Run the code and check the site:
 
 	:> cd SystemController4
-	:> python wsgi.py
+	:> sudo python wsgi.py
