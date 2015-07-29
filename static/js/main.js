@@ -6,7 +6,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
         var ws = $websocket.$new('ws://' + window.location.hostname + ':9000');
 
         ws.$on('$open', function () {
-            console.log('Opened');
+            console.log('WS Opened');
             ws.$emit('add', {
                     a: 5,
                     b: 4
@@ -21,8 +21,15 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
         });
 
         ws.$on('$close', function () {
-            console.log('Closed');
+            console.log('WS Closed');
         });
+    })
+    .run(function() {
+        // Add in the mobile menu closing code
+         var navMenu= $("#navbar-collapse");
+         navMenu.on("click", "a", null, function () {
+             navMenu.collapse('hide');
+         });
     })
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider
