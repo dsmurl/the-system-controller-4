@@ -3,13 +3,15 @@
         <tr>
             <th>ID</th>
             <th>Sensor</th>
-            <th></th>
+            <th>Analog Pin</th>
+            <th width=150px></th>
         </tr>
     </thead>
     <tbody>
         <tr data-ng-repeat="sensor in sensors">
             <td>{{ sensor.id }}</td>
             <td>{{ sensor.label }}</td>
+            <td>{{ sensor.pin }}</td>
             <td>
                 <a class="btn btn-info" href="#/sensor/{{ sensor.id }}">Edit</a>
                 <button class="btn btn-danger" data-ng-click="deleteSensor($index)">Delete</button>
@@ -18,7 +20,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3">
+            <td colspan="4">
                 <a class="btn btn-default pull-right" href="#/sensor/0">Add</a>
             </td>
         </tr>

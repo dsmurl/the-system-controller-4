@@ -1,7 +1,6 @@
 import datetime
-import inspect
+import json
 from peewee import *
-import sys
 from playhouse.shortcuts import model_to_dict
 from lib import utils
 
@@ -22,43 +21,105 @@ class BaseModel(Model):
 
         return model_to_dict(self)
 
+    def key(self, property_or_method=None):
+        args = [self.__class__.__name__, self.id]
+
+        if property_or_method and hasattr(self, property_or_method):
+            args.append(property_or_method)
+
+        return '/'.join(map(lambda arg: str(arg), args))
+
+    @classmethod
+    def get_by_key(cls, key, default=None):
+        if str(key).count('/') > 0:
+            keys = key.split('/')
+            model = keys.pop(0)
+            primary_id = keys.pop(0)
+            method = None
+            if keys:
+                method = keys.pop(0)
+
+            entity = utils.get_members_by_parent(__name__, BaseModel)[model].get_by_id(int(primary_id))
+
+            if not method:
+                return entity
+            elif hasattr(entity, method):
+                val = getattr(entity, method)
+                return val() if callable(val) else val
+
+            return default
+
+        return key
+
 
 class Sensor(BaseModel):
     created = DateTimeField(default=datetime.datetime.now)
 
     label = CharField(index=False)
-    code = CharField(index=False)
+    pin = CharField(index=False)
+
+    def value(self):
+        # todo implement sensor value get
+        return '1'
+
+    def to_client(self):
+
+        data = model_to_dict(self)
+        data['key'] = self.key('value')
+
+        return data
+
+
+class Device(BaseModel):
+    created = DateTimeField(default=datetime.datetime.now)
+
+    label = CharField(index=False)
+    pin = CharField(index=False)
+    value = BooleanField(index=False)
+
+    def to_client(self):
+
+        data = model_to_dict(self)
+        data['key'] = self.key('value')
+
+        return data
+
+
+class Rule(BaseModel):
+    created = DateTimeField(default=datetime.datetime.now)
+
+    label = CharField(index=False)
+    enabled = BooleanField(index=True, default=True)
+
+    conditions = TextField(default='[]')
+
+    def set_conditions(self, conditions):
+        """Sample Format:
+            [
+                Generating in code sample
+                [entity.key('property_or_method'), str(operator), entity.key('property_or_method')],
+                Actual value generated
+                [Device/1/value, 'Equal', 1]
+            ]
+        """
+
+        self.conditions = json.dumps(conditions)
+
+    def get_conditions(self):
+
+        return json.loads(self.conditions)
+
+    def to_client(self):
+
+        data = model_to_dict(self)
+        data['conditions'] = self.get_conditions()
+
+        return data
+
 
 """
 Anything under this line are managers for the models
 """
-
-
-def base_models_predicate(c):
-    """Filters all classes that extends BaseModel
-
-    :param c:
-    :return:
-    """
-    return inspect.isclass(c) and c.__base__ is BaseModel
-
-
-def get_models():
-    """Get all models that extends BaseModel
-
-    :return:
-    """
-    return [model[1] for model in inspect.getmembers(sys.modules[__name__], base_models_predicate)]
-
-
-def get_model_by_name(name):
-    """Get a model by its name
-
-    :return:
-    """
-    for model in get_models():
-        if model.__name__ == name:
-            return model
 
 
 def create_tables():
@@ -68,5 +129,5 @@ def create_tables():
     """
     db = utils.get_db()
     db.connect()
-    db.create_tables(get_models(), True)
+    db.create_tables(utils.get_members_by_parent(__name__, BaseModel).values(), True)
     db.close()
