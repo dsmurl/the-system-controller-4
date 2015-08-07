@@ -1,5 +1,5 @@
 # System Controller V4
-This is the working code of the system controller V4 build for grass roots industrial systems management.
+The working code of the System Conroller V4 designed for grass roots industrial systems management.
 
 
 # Install the code on a BeagleBone Black and get the application running
