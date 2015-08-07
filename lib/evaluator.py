@@ -14,11 +14,14 @@ class Evaluate(object):
         """Runs through rule conditions and execute rule action if conditions met
         :return:
         """
+
         for condition in self.rule.get_conditions():
             if not self._evaluate(condition):
-                return False
+                logging.debug('Not Executing action.')
+                return False  # Found a condition that was false so bail
 
-        # todo do action rule.
+        self._execute_action()
+
         return True
 
     def _evaluate(self, condition):
@@ -26,6 +29,7 @@ class Evaluate(object):
         :param condition:
         :return:
         """
+
         first, op, second = condition
 
         val1 = models.BaseModel.get_by_key(first)
@@ -36,3 +40,15 @@ class Evaluate(object):
         logging.debug('Evaluate: {} {} {}'.format(val1, op_val, val2))
 
         return result
+
+    def _execute_action(self):
+        """ Executes the action associated with the rule
+        :param condition:
+        :return:
+        """
+
+
+
+        logging.debug('Executing action.')
+
+        return True

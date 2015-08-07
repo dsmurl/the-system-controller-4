@@ -161,11 +161,21 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         $scope.rule.conditions.splice(index, 1);
                     };
 
-                    $scope.getDeviceAndSensors = function () {
+                    $scope.getDevicesAndSensors = function () {
                         var data = [];
                         angular.forEach($scope.sensors, function (sensor) {
                             data.push(sensor);
                         });
+
+                        angular.forEach($scope.devices, function (device) {
+                           data.push(device);
+                        });
+
+                        return data;
+                    };
+
+                    $scope.getDevices = function () {
+                        var data = [];
 
                         angular.forEach($scope.devices, function (device) {
                            data.push(device);

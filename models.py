@@ -59,8 +59,8 @@ class Sensor(BaseModel):
     pin = CharField(index=False)
 
     def value(self):
-        # todo implement sensor value get
-        return '1'
+        # TODO implement sensor value get
+        return '256'
 
     def to_client(self):
 
@@ -93,13 +93,15 @@ class Rule(BaseModel):
 
     conditions = TextField(default='[]')
 
+    action = TextField(default='[]')
+
     def set_conditions(self, conditions):
         """Sample Format:
             [
                 Generating in code sample
                 [entity.key('property_or_method'), str(operator), entity.key('property_or_method')],
                 Actual value generated
-                [Device/1/value, 'Equal', 1]
+                [Sensor/1/value, 'Equal', 1]
             ]
         """
 
@@ -109,10 +111,27 @@ class Rule(BaseModel):
 
         return json.loads(self.conditions)
 
+    def set_action(self, action):
+        """Sample Format:
+            [
+                Generating in code sample
+                [entity.key('property_or_method'), entity.key('property_or_method')],
+                Actual value generated
+                [Device/1, 1]
+            ]
+        """
+
+        self.action = json.dumps(action)
+
+    def get_action(self):
+
+        return json.loads(self.action)
+
     def to_client(self):
 
         data = model_to_dict(self)
         data['conditions'] = self.get_conditions()
+        data['action'] = self.get_action()
 
         return data
 
