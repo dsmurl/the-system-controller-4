@@ -118,7 +118,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         });
 
                     $scope.deleteRule = function (index) {
-                        var ruleId = $scope.sensors[index].id;
+                        var ruleId = $scope.rules[index].id;
                         Rpc.deleteRule(ruleId)
                             .success(function (r) {
                                 if (r.result) {
