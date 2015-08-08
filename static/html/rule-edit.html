@@ -34,17 +34,22 @@
     </div>
 
    <div class="form-group col-sm-12">
-        <label for="deviceLabel" class="col-sm-2 control-label">Action</label><br><br>
+        <label for="deviceLabel" class="col-sm-2 control-label">Actions</label><br><br>
 
-        <div class="col-sm-10">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-3">
-                    <select class="form-control" data-ng-model="action[0]" data-ng-options="entity.key as entity.label for entity in $parent.getDevices()"></select>
-                </div>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" data-ng-model="action[1]" />
-                </div>
+        <div class="col-sm-10" data-ng-repeat="action in rule.actions">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-3">
+                <select class="form-control" data-ng-model="action[0]" data-ng-options="entity.key as entity.label for entity in $parent.devices"></select>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" data-ng-model="action[1]" />
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-danger" data-ng-click="deleteAction($index)">X</button>
+            </div>
+            <div class="col-sm-2"></div>
         </div>
+        <button class="btn btn-primary" data-ng-click="addAction()">Add</button>
     </div>
 
 

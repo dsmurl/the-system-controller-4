@@ -93,7 +93,7 @@ class Rule(BaseModel):
 
     conditions = TextField(default='[]')
 
-    action = TextField(default='[]')
+    actions = TextField(default='[]')
 
     def set_conditions(self, conditions):
         """Sample Format:
@@ -111,7 +111,7 @@ class Rule(BaseModel):
 
         return json.loads(self.conditions)
 
-    def set_action(self, action):
+    def set_actions(self, actions):
         """Sample Format:
             [
                 Generating in code sample
@@ -121,17 +121,17 @@ class Rule(BaseModel):
             ]
         """
 
-        self.action = json.dumps(action)
+        self.actions = json.dumps(actions)
 
-    def get_action(self):
+    def get_actions(self):
 
-        return json.loads(self.action)
+        return json.loads(self.actions)
 
     def to_client(self):
 
         data = model_to_dict(self)
         data['conditions'] = self.get_conditions()
-        data['action'] = self.get_action()
+        data['actions'] = self.get_actions()
 
         return data
 

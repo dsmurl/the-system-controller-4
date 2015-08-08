@@ -110,7 +110,7 @@ class ApiHandler(RpcHandler):
         rule.label = data.get('label')
         rule.enabled = data.get('enabled') == '1'
         rule.set_conditions(data.get('conditions'))
-        rule.set_action(data.get('action'))
+        rule.set_actions(data.get('actions'))
         rule.save()
 
         return rule.to_client()
