@@ -1,5 +1,6 @@
 import datetime
 import json
+import gevent
 from peewee import *
 from playhouse.shortcuts import model_to_dict
 from lib import utils
@@ -68,6 +69,25 @@ class Sensor(BaseModel):
         data['key'] = self.key('value')
 
         return data
+
+    @classmethod
+    def background_send_values(cls):
+
+        while True:
+            clients = utils.CLIENTS
+            sensors = cls.select()
+
+            if sensors.count() > 0 and len(clients) > 0:
+                data = dict((sensor.id, sensor.value()) for sensor in sensors)
+
+                for client in clients:
+                    client.send(json.dumps({
+                        'event': 'sensors',
+                        'result': data
+                    }))
+
+            gevent.sleep(1)
+
 
 
 class Device(BaseModel):

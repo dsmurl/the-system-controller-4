@@ -3,7 +3,7 @@ from lib import utils, operator, evaluator
 from lib.basehandler import RpcHandler
 from lib.jsonrpc import ServerException
 import models
-import Adafruit_BBIO.GPIO as GPIO
+# import Adafruit_BBIO.GPIO as GPIO
 
 class ApiHandler(RpcHandler):
 
