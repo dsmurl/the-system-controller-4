@@ -172,13 +172,15 @@ class ApiHandler(RpcHandler):
         reading = -1
         if pin in acceptable_pins:
             ADC.setup()
-            reading = ADC.read(pin)
+            reading = round(ADC.read(pin), 2)
+            reading = round(ADC.read(pin), 2)  # Needs two reads to get the right value due to a bug in the library
 
-        logging.debug("Done with read_sensor")
-        logging.debug(ADC.read("P9_33"))
+        # logging.debug("Done with read_sensor")
+        # logging.debug(ADC.read("P9_33"))
 
-        ADC.setup()
-        reading = [round(ADC.read("P9_33"), 2), round(ADC.read("P9_35"), 2), round(ADC.read("P9_36"), 2), round(ADC.read("P9_37"), 2), round(ADC.read("P9_38"), 2), round(ADC.read("P9_39"), 2), round(ADC.read("P9_40"), 2)]
+        # test reading all pins
+        # ADC.setup()
+        # reading = [round(ADC.read("P9_33"), 2), round(ADC.read("P9_35"), 2), round(ADC.read("P9_36"), 2), round(ADC.read("P9_37"), 2), round(ADC.read("P9_38"), 2), round(ADC.read("P9_39"), 2), round(ADC.read("P9_40"), 2)]
 
         return reading
 
