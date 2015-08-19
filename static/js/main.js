@@ -226,7 +226,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         Rpc.readSensor($scope.sensorPin)
                             .success(function (reading) {
                                 console.log("Success and read = " + reading);
-                                $scope.sensorReading = reading;
+                                $scope.sensorReading = reading.result;
                             });
                     };
                 }]
