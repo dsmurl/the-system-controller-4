@@ -4,6 +4,7 @@ from lib.basehandler import RpcHandler
 from lib.jsonrpc import ServerException
 import models
 import Adafruit_BBIO.GPIO as GPIO
+import Adafruit_BBIO.ADC as ADC
 
 class ApiHandler(RpcHandler):
 
@@ -161,4 +162,22 @@ class ApiHandler(RpcHandler):
         logging.debug("Done with toggle_led")
 
         return on_off
+
+    def read_sensor(self, pin):
+
+        logging.debug("Running read_sensor...")
+        logging.debug(pin)
+
+        acceptable_pins = ["P9_33", "P9_35", "P9_36", "P9_37", "P9_38", "P9_39", "P9_40"]
+        reading = -1
+        if pin in acceptable_pins:
+            ADC.setup()
+            reading = ADC.read(pin)
+
+        logging.debug("Done with read_sensor")
+
+        return reading
+
+
+
 
