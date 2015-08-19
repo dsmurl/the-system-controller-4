@@ -175,6 +175,9 @@ class ApiHandler(RpcHandler):
             reading = ADC.read(pin)
 
         logging.debug("Done with read_sensor")
+	logging.debug(ADC.read("P9_33"))
+
+	reading = [round(ADC.read("P9_33"),2), round(ADC.read("P9_35"),2), round(ADC.read("P9_36"),2), round(ADC.read("P9_37"),2), round(ADC.read("P9_38"),2), round(ADC.read("P9_39"),2), round(ADC.read("P9_40"),2)]
 
         return reading
 
