@@ -240,10 +240,11 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                                 });
                     }
 
-                    var updateReadingInterval = $interval(updateReading, 1000);
+                    var updateReadingInterval = $interval(updateReading, 500);
 
                     // listen on DOM destroy (removal) event, and cancel the next UI update
                     // to prevent updating time after the DOM element was removed.
+                    // TODO: find out why this doesn't work
 //                    element.on('$destroy', function() {
 //                    $interval.cancel(updateReadingInterval);
 //                    });

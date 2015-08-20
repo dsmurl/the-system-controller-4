@@ -175,7 +175,7 @@ class ApiHandler(RpcHandler):
 
         logging.debug("Done with read_sensor.  " + pin + " =>  " + str(reading))
 
-        return 42  # reading
+        return reading
 
     def read_sensors(self):
 
@@ -186,11 +186,6 @@ class ApiHandler(RpcHandler):
                             "P9_35": round(ADC.read("P9_35"), 2), "P9_36": round(ADC.read("P9_36"), 2),
                             "P9_37": round(ADC.read("P9_37"), 2), "P9_38": round(ADC.read("P9_38"), 2),
                             "P9_39": round(ADC.read("P9_39"), 2), "P9_40": round(ADC.read("P9_40"), 2)}
-
-        # all_pin_readings = {"P9_33": '1',
-        #                     "P9_35": '2', "P9_36": '3',
-        #                     "P9_37": '4', "P9_38": '5',
-        #                     "P9_39": '6', "P9_40": '7'}
 
         logging.debug("Done with read_sensors and found " + str(all_pin_readings))
 
