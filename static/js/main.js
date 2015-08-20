@@ -195,7 +195,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                 }]
             })
             .when('/poc', {
-                templateUrl: 'html/poc.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
+                templateUrl: 'html/poc.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', '$interval', function ($scope, $routeParams, Rpc, $location, $interval) {
 
                     ////  Toggle LED section
                     $scope.led_value = false;
@@ -218,17 +218,35 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
 
 
                     //// Read sensor AIN4 as analog pin P9_33 section
-                    $scope.sensorReading = 0;
-                    $scope.sensorPin = "P9_33";  // Analog pin for AIN4
-                    $scope.AIN4Reading = function () {
+                    $scope.AIN4Reading = 0;
+                    $scope.sensorReadings = {};
+
+                    $scope.AIN4Read = function () {
                         console.log("Reading sensor " + $scope.sensorPin);
 
-                        Rpc.readSensor($scope.sensorPin)
+                        Rpc.readSensor("P9_33")  // AIN4
                             .success(function (reading) {
-                                console.log("Success and read = " + reading);
-                                $scope.sensorReading = reading.result;
+                                console.log("Success and read sensor 33 = " + reading);
+                                $scope.AIN4Reading = reading.result;
                             });
                     };
+
+
+                    var updateReading = function() {
+                        Rpc.readSensors()
+                                .success(function (reading) {
+                                    console.log("Success and read = " + reading.result);
+                                    $scope.sensorReadings = reading.result;
+                                });
+                    }
+
+                    var updateReadingInterval = $interval(updateReading, 1000);
+
+                    // listen on DOM destroy (removal) event, and cancel the next UI update
+                    // to prevent updating time after the DOM element was removed.
+//                    element.on('$destroy', function() {
+//                    $interval.cancel(updateReadingInterval);
+//                    });
                 }]
             })
             .when('/logs', {
@@ -306,6 +324,10 @@ angular.module('appServices', ['angular-json-rpc'])
 
                 readSensor: function (pin_index) {
                     return rpcRequest('read_sensor', {pin: pin_index});
+                },
+
+                readSensors: function () {
+                    return rpcRequest('read_sensors', {});
                 }
             };
         }]);

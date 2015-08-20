@@ -1,9 +1,37 @@
 <table>
 
-    <tr><td>
-        Toggle the LED on and off: <a class="btn btn-default" data-ng-click="toggleLed()"> Toggle Led P9_11 </a>
-    </td></tr>
-    <tr><td>
-        Sensor Reading from AIN4 as pin P9_33: <a class="btn btn-default" data-ng-click="AIN4Reading()"> Read AIN4 </a>  {{ sensorReading }}
-    </td></tr>
+    <tr>
+        <td>
+            Toggle the LED on and off: <a class="btn btn-default" data-ng-click="toggleLed()"> Toggle Led P9_11 </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Sensor Reading from AIN4 as pin P9_33: <a class="btn btn-default" data-ng-click="AIN4Read()"> Read AIN4 </a>  {{ AIN4Reading }}
+        </td>
+    </tr>
+    <tr>
+</table>
+
+<br><br>
+
+<table>
+    <tr>
+        <td>
+            Sensor
+        </td>
+        <td>
+            Reading
+        </td>
+    </tr>
+    <div ng-repeat="(sensor, reading) in sensorReadings">
+        <tr>
+        <td>
+            {{sensor}}
+        </td>
+        <td>
+            {{reading}}
+        </td>
+        </tr>
+    </div>
 </table>
