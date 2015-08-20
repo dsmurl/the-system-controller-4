@@ -219,7 +219,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
 
                     //// Read sensor AIN4 as analog pin P9_33 section
                     $scope.AIN4Reading = 0;
-                    $scope.sensorReadings = {};
+                    $scope.sensorReadings = {}
 
                     $scope.AIN4Read = function () {
                         console.log("Reading sensor " + $scope.sensorPin);

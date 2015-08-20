@@ -14,24 +14,13 @@
 </table>
 
 <br><br>
+Sensors:
 
-<table>
-    <tr>
-        <td>
-            Sensor
-        </td>
-        <td>
-            Reading
-        </td>
-    </tr>
-    <div ng-repeat="(sensor, reading) in sensorReadings">
-        <tr>
-        <td>
-            {{sensor}}
-        </td>
-        <td>
-            {{reading}}
-        </td>
-        </tr>
-    </div>
-</table>
+<ul class="example-animate-container">
+    <li class="animate-repeat" ng-repeat="(key, value) in sensorReadings">
+        {{key}}: {{value}}
+    </li>
+</ul>
+
+
+
