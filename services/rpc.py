@@ -173,7 +173,7 @@ class ApiHandler(RpcHandler):
             ADC.setup()
             reading = ADC.read(pin)
 
-        logging.debug("Done with read_sensor.  " + pin + " =>  " + reading)
+        logging.debug("Done with read_sensor.  " + pin + " =>  " + str(reading))
 
         return reading
 
