@@ -182,10 +182,10 @@ class ApiHandler(RpcHandler):
         logging.debug("Running read_sensors...")
 
         ADC.setup()
-        all_pin_readings = {"P9_33": round(ADC.read("P9_33"), 2),
-                            "P9_35": round(ADC.read("P9_35"), 2), "P9_36": round(ADC.read("P9_36"), 2),
-                            "P9_37": round(ADC.read("P9_37"), 2), "P9_38": round(ADC.read("P9_38"), 2),
-                            "P9_39": round(ADC.read("P9_39"), 2), "P9_40": round(ADC.read("P9_40"), 2)}
+        all_pin_readings = {"P9_33": round(ADC.read("P9_33"), 4),
+                            "P9_35": round(ADC.read("P9_35"), 4), "P9_36": round(ADC.read("P9_36"), 4),
+                            "P9_37": round(ADC.read("P9_37"), 4), "P9_38": round(ADC.read("P9_38"), 4),
+                            "P9_39": round(ADC.read("P9_39"), 4), "P9_40": round(ADC.read("P9_40"), 4)}
 
         logging.debug("Done with read_sensors and found " + str(all_pin_readings))
 
