@@ -5,6 +5,7 @@ from lib.jsonrpc import ServerException
 import models
 import Adafruit_BBIO.GPIO as GPIO
 
+
 class ApiHandler(RpcHandler):
 
     # Sensor Section

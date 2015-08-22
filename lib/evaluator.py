@@ -47,8 +47,8 @@ class Evaluate(object):
         :return:
         """
 
-
-
         logging.debug('Executing action.')
 
-        return True
+        for action in self.rule.get_actions():
+            result = models.BaseModel.get_by_key(action)
+            logging.debug('Executed: {} Result: {}'.format(action, result))

@@ -77,6 +77,14 @@ class Device(BaseModel):
     pin = CharField(index=False)
     value = BooleanField(index=False)
 
+    def switch_on(self):
+        # todo implement switch
+        return True
+
+    def switch_off(self):
+        # todo implement switch
+        return False
+
     def to_client(self):
 
         data = model_to_dict(self)
