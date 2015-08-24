@@ -4,6 +4,7 @@
             <th>ID</th>
             <th>Sensor</th>
             <th>Analog Pin</th>
+            <th>Value</th>
             <th width=150px></th>
         </tr>
     </thead>
@@ -12,6 +13,10 @@
             <td>{{ sensor.id }}</td>
             <td>{{ sensor.label }}</td>
             <td>{{ sensor.pin }}</td>
+            <td>
+                <a class="btn btn-default" data-ng-click="sensor.sensorRead()"> Read </a>&nbsp; &nbsp;
+                {{ sensor.value }}
+            </td>
             <td>
                 <a class="btn btn-info" href="#/sensor/{{ sensor.id }}">Edit</a>
                 <button class="btn btn-danger" data-ng-click="deleteSensor($index)">Delete</button>

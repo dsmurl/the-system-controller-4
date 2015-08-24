@@ -54,6 +54,16 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                                 }
                             });
                     }
+
+                    $scope.sensorRead = function (sensorId) {
+                        console.log("Reading sensor " + $scope.sensorId);
+
+                        Rpc.readSensor($scope.sensorId)
+                            .success(function (reading) {
+                                console.log("Success and read Sensor " + $scope.sensorId + " = " + reading);
+                                $scope.sensor[sensorId].value =  reading.result;
+                            });
+                    };
                 }]
             })
             .when('/sensor/:id', {
@@ -217,20 +227,20 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
 
 
 
-                    //// Read sensor AIN4 as analog pin P9_33 section
-                    $scope.AIN4Reading = 0;
+                    //// Read sensor id 1
+                    $scope.sensorId = 1;
+                    $scope.sensor1Reading = -1;
                     $scope.sensorReadings = {}
 
-                    $scope.AIN4Read = function () {
-                        console.log("Reading sensor " + $scope.sensorPin);
+                    $scope.sensorRead = function () {
+                        console.log("Reading sensor " + $scope.sensorId);
 
-                        Rpc.readSensor("P9_33")  // AIN4
+                        Rpc.readSensor($scope.sensorId)
                             .success(function (reading) {
-                                console.log("Success and read sensor 33 = " + reading);
-                                $scope.AIN4Reading = reading.result;
+                                console.log("Success and read Sensor " + $scope.sensorId + " = " + reading);
+                                $scope.sensor1Reading = reading.result;
                             });
                     };
-
 
                     var updateReading = function() {
                         Rpc.readSensors()
@@ -323,8 +333,8 @@ angular.module('appServices', ['angular-json-rpc'])
                     return rpcRequest('toggle_led', {on_off: desiredSwitchValue});
                 },
 
-                readSensor: function (pin_index) {
-                    return rpcRequest('read_sensor', {pin: pin_index});
+                readSensor: function (sensor_id) {
+                    return rpcRequest('read_sensor', {id: sensor_id});
                 },
 
                 readSensors: function () {
