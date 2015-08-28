@@ -44,7 +44,7 @@ pins from python:
 	:> sudo apt-get update
 	:> sudo apt-get install build-essential python-setuptools python-pip python-smbus
 
-Install the IO lib through pip and other dependencies:
+Install the IO lib through pip and other dependencies.  This took around 10 minutes on my BeagleBone so don't think it crashed.
 
 	:> sudo pip install Adafruit_BBIO gevent webapp2 webob python-memcached ws4py jinja2 peewee
 
@@ -66,9 +66,9 @@ For later reference, you can add the apache auto-start back in with:
 
 Install the code.  Find the revision you want on GitHub.com and git clone the current code or preferred revision, like:
 
-	:> git clone https://github.com/dsmurl/SystemController4.git
+	:> git clone https://github.com/dsmurl/DiySystemController4.git
 
 Run the code and check the site:
 
-	:> cd SystemController4
+	:> cd DiySystemController4
 	:> sudo python wsgi.py
