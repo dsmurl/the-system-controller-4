@@ -26,9 +26,15 @@ Make the networking through the router work.  Change the networking over to prim
 	    netmask 255.255.255.0
 	    gateway 192.168.0.1
 
-Now take the Beaglebone off the USB connection and add power to from the AC adapter and give it a hard line connection to your network router.  It needs it's own network address and internet access to continue to install the code and the dependencies.  The USB connection has trouble providing the BeagleBone with outer web.
+Now take the Beaglebone off the USB connection and add power to from the AC adapter and give it a hard line connection to your network router.  
 
-Set the correct time:
+It needs it's own network address and internet access at this point to continue to install the code and the dependencies.  The USB connection has trouble providing the BeagleBone with outer web.
+
+So, now we can shell into the BeagleBone with the USERNAME and password you created above.  You will need to also remember the address line that you added to the /etc/network/interfaces file.  Shell into the BeagleBone now like this:
+
+	ssh USERNAME@IP_ADDRESS_YOU_SET
+
+Once you are in, set the correct time:
 
 	:> sudo ntpdate pool.ntp.org
 
