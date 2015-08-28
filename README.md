@@ -60,6 +60,10 @@ Disable Apache2 ( or get it off listening to port 8080):
 	
 	:> update-rc.d apache2 disable
 
+Also, turn Apache2 off so that we can run our code through 8080 soon:
+
+	:> sudo service apache2 stop
+
 For later reference, you can add the apache auto-start back in with:
 
 	:> update-rc.d apache2 enable
