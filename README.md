@@ -32,7 +32,7 @@ It needs it's own network address and internet access at this point to continue 
 
 So, now we can shell into the BeagleBone with the USERNAME and password you created above.  You will need to also remember the address line that you added to the /etc/network/interfaces file.  Shell into the BeagleBone now like this:
 
-	ssh USERNAME@IP_ADDRESS_YOU_SET
+	:> ssh USERNAME@IP_ADDRESS_YOU_SET
 
 Once you are in, set the correct time:
 
