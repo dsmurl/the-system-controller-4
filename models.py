@@ -1,5 +1,6 @@
 import datetime
 import json
+import gevent
 from peewee import *
 from playhouse.shortcuts import model_to_dict
 from lib import utils
@@ -115,6 +116,19 @@ class Rule(BaseModel):
         data['conditions'] = self.get_conditions()
 
         return data
+
+    @classmethod
+    def background_run_rules(cls):
+        from lib import evaluator
+
+        while True:
+            rules = cls.select()
+
+            for rule in rules:
+                eval_rule = evaluator.Evaluate(rule)
+                eval_rule.evaluate()
+
+            gevent.sleep(1)  # todo we can make the sleep system settings
 
 
 """
