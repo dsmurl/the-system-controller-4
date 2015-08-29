@@ -1,10 +1,9 @@
 import logging
-from lib import utils, operator, evaluator
+from lib import utils, operator, evaluator, gpio
 from lib.basehandler import RpcHandler
 from lib.jsonrpc import ServerException
 import models
-import Adafruit_BBIO.GPIO as GPIO
-import Adafruit_BBIO.ADC as ADC
+
 
 class ApiHandler(RpcHandler):
 
@@ -150,13 +149,10 @@ class ApiHandler(RpcHandler):
         logging.debug("Running toggle_led...")
         logging.debug(on_off)
 
-        GPIO.setup("P9_11", GPIO.OUT)
         if on_off:
-            GPIO.output("P9_11", GPIO.HIGH)
-            logging.debug("Setting P9_11 to HIGH")
+            gpio.output_high("P9_11")
         else:
-            GPIO.output("P9_11", GPIO.LOW)
-            logging.debug("Setting P9_11 to LOW")
+            gpio.output_low("P9_11")
         # GPIO.cleanup()   # Doesn't need to cleanup here, but somewhere as closing or something
 
         logging.debug("Done with toggle_led")
@@ -173,11 +169,10 @@ class ApiHandler(RpcHandler):
 
         logging.debug("Running read_sensors...")
 
-        ADC.setup()
-        all_pin_readings = {"P9_33": round(ADC.read("P9_33"), 4),
-                            "P9_35": round(ADC.read("P9_35"), 4), "P9_36": round(ADC.read("P9_36"), 4),
-                            "P9_37": round(ADC.read("P9_37"), 4), "P9_38": round(ADC.read("P9_38"), 4),
-                            "P9_39": round(ADC.read("P9_39"), 4), "P9_40": round(ADC.read("P9_40"), 4)}
+        all_pin_readings = {"P9_33": round(gpio.read("P9_33"), 4),
+                            "P9_35": round(gpio.read("P9_35"), 4), "P9_36": round(gpio.read("P9_36"), 4),
+                            "P9_37": round(gpio.read("P9_37"), 4), "P9_38": round(gpio.read("P9_38"), 4),
+                            "P9_39": round(gpio.read("P9_39"), 4), "P9_40": round(gpio.read("P9_40"), 4)}
 
         logging.debug("Done with read_sensors and found " + str(all_pin_readings))
 

@@ -2,9 +2,7 @@ import datetime
 import json
 from peewee import *
 from playhouse.shortcuts import model_to_dict
-from lib import utils
-import Adafruit_BBIO.GPIO as GPIO
-import Adafruit_BBIO.ADC as ADC
+from lib import utils, gpio
 import logging
 
 
@@ -73,13 +71,7 @@ class Sensor(BaseModel):
 
         logging.debug("Running read_sensor " + self.pin + "...")
 
-        acceptable_pins = ["P9_33", "P9_35", "P9_36", "P9_37", "P9_38", "P9_39", "P9_40"]
-        reading = -1
-        if self.pin in acceptable_pins:
-            ADC.setup()
-            reading = ADC.read(self.pin)
-        else:
-            return -2  # code for pin misaligned
+        reading = gpio.read(self.pin)
 
         logging.debug("Done with read_sensor.  " + self.pin + " =>  " + str(reading))
 
