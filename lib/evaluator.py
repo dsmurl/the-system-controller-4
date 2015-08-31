@@ -4,14 +4,14 @@ import operator
 import models
 
 
-class Evaluate(object):
+class Evaluator(object):
 
     def __init__(self, rule):
         self.rule = rule
         self.operators = utils.get_members_by_parent(operator, operator.Operator)
 
     def evaluate(self):
-        """Runs through rule conditions and execute rule action if conditions met
+        """Runs through each rule conditions and execute rule action if conditions met
         :return:
         """
 
@@ -20,12 +20,10 @@ class Evaluate(object):
                 logging.debug('Not Executing action.')
                 return False  # Found a condition that was false so bail
 
-        self._execute_action()
-
         return True
 
     def _evaluate(self, condition):
-        """Runs through each condition and returns True or False
+        """Runs through a single condition and returns True or False
         :param condition:
         :return:
         """
@@ -40,15 +38,3 @@ class Evaluate(object):
         logging.debug('Evaluate: {} {} {}'.format(val1, op_val, val2))
 
         return result
-
-    def _execute_action(self):
-        """ Executes the action associated with the rule
-        :param condition:
-        :return:
-        """
-
-        logging.debug('Executing action.')
-
-        for action in self.rule.get_actions():
-            result = models.BaseModel.get_by_key(action)
-            logging.debug('Executed: {} Result: {}'.format(action, result))

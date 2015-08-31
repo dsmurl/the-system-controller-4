@@ -141,9 +141,12 @@ class ApiHandler(RpcHandler):
 
     def run_rule(self, rule_id):
 
-        run = evaluator.Evaluate(models.Rule.get_by_id(rule_id))
+        # Get the rule
+        rule = models.Rule.get_by_id(rule_id)
 
-        return run.evaluate()
+        result = rule.run()
+
+        return result
 
     # POC Section
     def toggle_led(self, on_off):

@@ -1,11 +1,10 @@
+import logging
 import datetime
 import json
-import gevent
 from peewee import *
 from playhouse.shortcuts import model_to_dict
-from lib import utils, gpio
+from lib import utils, gpio, evaluator
 import logging
-
 
 
 class BaseModel(Model):
@@ -13,7 +12,6 @@ class BaseModel(Model):
     class Meta:
         database = utils.get_db()
 
-    # Returns the Entity with the given id
     @classmethod
     def get_by_id(cls, id):
         try:
@@ -21,13 +19,10 @@ class BaseModel(Model):
         except cls.DoesNotExist:
             return None
 
-    # Converts this entity to a dictionary to be passed around
     def to_client(self):
 
         return model_to_dict(self)
 
-    # Creates a key string that includes this entities name,
-    # id, and a possible property_or_method.  All separated by /.
     def key(self, property_or_method=None):
         args = [self.__class__.__name__, self.id]
 
@@ -36,9 +31,6 @@ class BaseModel(Model):
 
         return '/'.join(map(lambda arg: str(arg), args))
 
-    # Retrieves an entity by it's key like "Sensor/1" or
-    # getting a value of a key of this entity by something like
-    # "Sensor/1/value"
     @classmethod
     def get_by_key(cls, key, default=None):
         if str(key).count('/') > 0:
@@ -68,14 +60,9 @@ class Sensor(BaseModel):
     label = CharField(index=False)
     pin = CharField(index=False)
 
-    def value(self):        
-        logging.debug("Running read_sensor " + self.pin + "...")
-
-        reading = gpio.read(self.pin)
-
-        logging.debug("Done with read_sensor.  " + self.pin + " =>  " + str(reading))
-
-        return reading
+    def value(self):
+        # TODO implement sensor value get
+        return '256'
 
     def to_client(self):
 
@@ -150,6 +137,30 @@ class Rule(BaseModel):
 
         return json.loads(self.actions)
 
+    def run(self):
+        # Evaluate the rule
+        an_evaluator = evaluator.Evaluator(self.key("value"))
+        evaluation = an_evaluator.evaluate()
+
+        # Run the action if needed
+        if evaluation:
+                self.execute_action()
+
+        return evaluation
+
+    def execute_action(self):
+        """ Executes the action associated with the rule
+        :return:
+        """
+
+        logging.debug('Executing action.')
+
+        for action in self.get_actions():
+            # action = models.BaseModel.get_by_key(action)
+
+            logging.debug('Executed: {} Result: {}'.format(action, 0))
+            return
+
     def to_client(self):
 
         data = model_to_dict(self)
@@ -157,19 +168,6 @@ class Rule(BaseModel):
         data['actions'] = self.get_actions()
 
         return data
-
-    @classmethod
-    def background_run_rules(cls):
-        from lib import evaluator
-
-        while True:
-            rules = cls.select()
-
-            for rule in rules:
-                eval_rule = evaluator.Evaluate(rule)
-                eval_rule.evaluate()
-
-            gevent.sleep(1)  # todo we can make the sleep system settings
 
 
 """
