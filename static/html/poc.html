@@ -1,1 +1,14 @@
 Toggle the LED on and off: <a class="btn btn-default" data-ng-click="toggleLed()"> Toggle Led P9_11 </a>
+
+<br><br>
+Sensor Reading from Sensor 1: <a class="btn btn-default" data-ng-click="sensorRead()"> Read Sensor 1 </a>  {{ sensor1Reading }}
+<br><br>
+Sensors:
+<ul class="example-animate-container">
+    <li class="animate-repeat" ng-repeat="(key, value) in sensorReadings">
+        {{key}}: {{value}}
+    </li>
+</ul>
+
+
+
