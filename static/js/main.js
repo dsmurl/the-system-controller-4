@@ -45,8 +45,8 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                             $scope.sensors = r.result;
                         });
 
-                    $scope.deleteSensor = function (index) {
-                        var sensorId = $scope.sensors[index].id;
+                    $scope.deleteSensor = function ( index ) {
+                        var sensorId = $scope.sensors[ index ].id;
                         Rpc.deleteSensor(sensorId)
                             .success(function (r) {
                                 if (r.result) {
@@ -55,13 +55,16 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                             });
                     }
 
-                    $scope.sensorRead = function (sensorId) {
-                        console.log("Reading sensor " + $scope.sensorId);
+                    $scope.sensorRead = function ( index ) {
+                        var sensorId = $scope.sensors[ index ].id;
+                        console.log("Reading sensor " + sensorId);
 
-                        Rpc.readSensor($scope.sensorId)
-                            .success(function (reading) {
-                                console.log("Success and read Sensor " + $scope.sensorId + " = " + reading);
-                                $scope.sensor[sensorId].value =  reading.result;
+                        Rpc.readSensor( sensorId )
+                            .success(function (r) {
+                                console.log("Success and read Sensor " + sensorId + " = ", r);
+				console.log("sensors", $scope.sensors);
+
+                                $scope.sensors[ index ].value =  r.result;
                             });
                     };
                 }]

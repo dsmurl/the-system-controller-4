@@ -168,16 +168,16 @@ class ApiHandler(RpcHandler):
 
         reading = models.Sensor.get_by_key("Sensor/" + str(id) + "/value", -1)
 
-        return reading
+        return round(reading, 3)
 
     def read_sensors(self):
 
         logging.debug("Running read_sensors...")
 
-        all_pin_readings = {"P9_33": round(gpio.read("P9_33"), 4),
-                            "P9_35": round(gpio.read("P9_35"), 4), "P9_36": round(gpio.read("P9_36"), 4),
-                            "P9_37": round(gpio.read("P9_37"), 4), "P9_38": round(gpio.read("P9_38"), 4),
-                            "P9_39": round(gpio.read("P9_39"), 4), "P9_40": round(gpio.read("P9_40"), 4)}
+        all_pin_readings = {"P9_33": round(gpio.read("P9_33"), 3),
+                            "P9_35": round(gpio.read("P9_35"), 3), "P9_36": round(gpio.read("P9_36"), 3),
+                            "P9_37": round(gpio.read("P9_37"), 3), "P9_38": round(gpio.read("P9_38"), 3),
+                            "P9_39": round(gpio.read("P9_39"), 3), "P9_40": round(gpio.read("P9_40"), 3)}
 
         logging.debug("Done with read_sensors and found " + str(all_pin_readings))
 
