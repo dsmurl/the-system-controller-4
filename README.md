@@ -76,3 +76,7 @@ Run the code and check the site:
 
 	:> cd DiySystemController4
 	:> sudo python wsgi.py
+
+Run with debug logging by adding --log_level=debug
+
+	:> sudo python wsgi.py --log_level=debug
