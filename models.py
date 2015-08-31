@@ -211,14 +211,12 @@ class Rule(BaseModel):
 
     @classmethod
     def background_run_rules(cls):
-        from lib import evaluator
 
         while True:
             rules = cls.select()
 
             for rule in rules:
-                eval_rule = evaluator.Evaluate(rule)
-                eval_rule.evaluate()
+                rule.run()
 
             gevent.sleep(1)  # todo we can make the sleep system settings
 
