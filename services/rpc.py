@@ -1,5 +1,5 @@
 import logging
-from lib import utils, operator, evaluator, gpio
+from lib import utils, operator, gpio
 from lib.basehandler import RpcHandler
 from lib.jsonrpc import ServerException
 import models
