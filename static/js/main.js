@@ -245,7 +245,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
 
                         Rpc.readSensor($scope.sensorId)
                             .success(function (reading) {
-                                console.log("Success and read Sensor " + $scope.sensorId + " = " + reading);
+                                console.log("Success and read Sensor " + $scope.sensorId + " = ", reading );
                                 $scope.sensor1Reading = reading.result;
                             });
                     };
@@ -253,7 +253,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                     var updateReading = function() {
                         Rpc.readSensors()
                                 .success(function (reading) {
-                                    console.log("Success and read = " + reading.result);
+//                                    console.log("Success and read = ", reading.result);
                                     $scope.sensorReadings = reading.result;
                                 });
                     }

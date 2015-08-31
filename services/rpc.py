@@ -166,7 +166,7 @@ class ApiHandler(RpcHandler):
 
     def read_sensor(self, id):
 
-        reading = models.Sensor.get_by_key("Sensors/" + id + "/value", -1)
+        reading = models.Sensor.get_by_key("Sensor/" + str(id) + "/value", -1)
 
         return reading
 
