@@ -37,7 +37,7 @@ class BaseModel(Model):
         return '/'.join(map(lambda arg: str(arg), args))
 
     # Retrieves an entity by it's key like "Sensor/1" or
-    # getting a value of a key of this entity by something like
+    # gets a value of a key of this entity by something like
     # "Sensor/1/value"
     @classmethod
     def get_by_key(cls, key, default=None):
@@ -61,6 +61,20 @@ class BaseModel(Model):
 
         return key
 
+    # Retrieves an entity by a key like "Sensor/1" or "Sensor/1/value"
+    @classmethod
+    def get_entity_by_key(cls, key, default=None):
+        if str(key).count('/') > 0:
+            keys = key.split('/')
+            model = keys.pop(0)
+            primary_id = keys.pop(0)
+
+            entity = utils.get_members_by_parent(__name__, BaseModel)[model].get_by_id(int(primary_id))
+
+            return entity
+
+        return None
+
 
 class Sensor(BaseModel):
     created = DateTimeField(default=datetime.datetime.now)
@@ -79,7 +93,7 @@ class Sensor(BaseModel):
     def to_client(self):
 
         data = model_to_dict(self)
-        data['key'] = self.key('value')
+        data['key'] = self.key()
 
         return data
 
@@ -102,7 +116,7 @@ class Device(BaseModel):
     def to_client(self):
 
         data = model_to_dict(self)
-        data['key'] = self.key('value')
+        data['key'] = self.key()
 
         return data
 
@@ -199,7 +213,7 @@ class Rule(BaseModel):
 
         first, op, second = condition
 
-        val1 = BaseModel.get_by_key(first)
+        val1 = BaseModel.get_by_key(first + "/value")
         val2 = BaseModel.get_by_key(second)
         op_val = self.operators[op]()
         result = op_val.evaluate(val1, val2)

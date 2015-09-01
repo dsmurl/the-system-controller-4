@@ -18,6 +18,8 @@ try:
 
 except ImportError as e:
     logging.debug('Adafruit_BBIO module not found.')
+except StandardError as e:
+    logging.debug('Adafruit_BBIO module ADC.setup() failed')
 
 
 __author__ = 'faisal'
