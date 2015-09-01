@@ -92,11 +92,11 @@ class Device(BaseModel):
     value = BooleanField(index=False)
 
     def switch_on(self):
-        # todo implement switch
+        gpio.output_high(self.pin)
         return True
 
     def switch_off(self):
-        # todo implement switch
+        gpio.output_low(self.pin)
         return False
 
     def to_client(self):
@@ -155,7 +155,7 @@ class Rule(BaseModel):
 
         # Run the action if needed
         if evaluation:
-                self.execute_action()
+            self.execute_action()
 
         return evaluation
 
@@ -167,7 +167,14 @@ class Rule(BaseModel):
         logging.debug('Executing action.')
 
         for action in self.get_actions():
-            # action = models.BaseModel.get_by_key(action)
+            target, value = action    # I think this is going to return target of "Deveice/1/value" and not be the real device object
+
+            device = BaseModel.get_by_key(target)  # device may end up value instead of real device object
+
+            if value:
+                device.switch_on()   # may fail  :(
+            else:
+                device.switch_off()   # may fail  :(
 
             logging.debug('Executed: {} Result: {}'.format(action, 0))
             return
