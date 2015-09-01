@@ -181,14 +181,14 @@ class Rule(BaseModel):
         logging.debug('Executing action.')
 
         for action in self.get_actions():
-            target, value = action    # I think this is going to return target of "Deveice/1/value" and not be the real device object
+            target, value = action
 
-            device = BaseModel.get_by_key(target)  # device may end up value instead of real device object
+            device = BaseModel.get_by_key(target)
 
-            if value:
-                device.switch_on()   # may fail  :(
+            if int(value):
+                device.switch_on()
             else:
-                device.switch_off()   # may fail  :(
+                device.switch_off()
 
             logging.debug('Executed: {} Result: {}'.format(action, 0))
             return
