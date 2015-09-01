@@ -15,7 +15,7 @@ class GreaterThan(Operator):
 
     def evaluate(self, first, second):
 
-        return first > second
+        return float(first) > float(second)
 
 
 class GreaterThanOrEqual(Operator):
@@ -26,7 +26,7 @@ class GreaterThanOrEqual(Operator):
 
     def evaluate(self, first, second):
 
-        return first >= second
+        return float(first) >= float(second)
 
 
 class LessThan(Operator):
@@ -37,7 +37,7 @@ class LessThan(Operator):
 
     def evaluate(self, first, second):
 
-        return first < second
+        return float(first) < float(second)
 
 
 class LessThanOrEqual(Operator):
@@ -48,7 +48,7 @@ class LessThanOrEqual(Operator):
 
     def evaluate(self, first, second):
 
-        return first <= second
+        return float(first) <= float(second)
 
 
 class NotEqual(Operator):
@@ -59,7 +59,7 @@ class NotEqual(Operator):
 
     def evaluate(self, first, second):
 
-        return first != second
+        return float(first) != float(second)
 
 
 class Equal(Operator):
@@ -70,5 +70,5 @@ class Equal(Operator):
 
     def evaluate(self, first, second):
 
-        return first == second
+        return float(first) == float(second)
 

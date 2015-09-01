@@ -45,8 +45,8 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                             $scope.sensors = r.result;
                         });
 
-                    $scope.deleteSensor = function (index) {
-                        var sensorId = $scope.sensors[index].id;
+                    $scope.deleteSensor = function ( index ) {
+                        var sensorId = $scope.sensors[ index ].id;
                         Rpc.deleteSensor(sensorId)
                             .success(function (r) {
                                 if (r.result) {
@@ -55,13 +55,16 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                             });
                     }
 
-                    $scope.sensorRead = function (sensorId) {
-                        console.log("Reading sensor " + $scope.sensorId);
+                    $scope.sensorRead = function ( index ) {
+                        var sensorId = $scope.sensors[ index ].id;
+                        console.log("Reading sensor " + sensorId);
 
-                        Rpc.readSensor($scope.sensorId)
-                            .success(function (reading) {
-                                console.log("Success and read Sensor " + $scope.sensorId + " = " + reading);
-                                $scope.sensor[sensorId].value =  reading.result;
+                        Rpc.readSensor( sensorId )
+                            .success(function (r) {
+                                console.log("Success and read Sensor " + sensorId + " = ", r);
+				console.log("sensors", $scope.sensors);
+
+                                $scope.sensors[ index ].value =  r.result;
                             });
                     };
                 }]
@@ -128,7 +131,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         });
 
                     $scope.deleteRule = function (index) {
-                        var ruleId = $scope.sensors[index].id;
+                        var ruleId = $scope.rules[index].id;
                         Rpc.deleteRule(ruleId)
                             .success(function (r) {
                                 if (r.result) {
@@ -171,7 +174,15 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         $scope.rule.conditions.splice(index, 1);
                     };
 
-                    $scope.getDeviceAndSensors = function () {
+                    $scope.addAction = function () {
+                        $scope.rule.actions.push([null, null]);
+                    };
+
+                    $scope.deleteAction = function (index) {
+                        $scope.rule.actions.splice(index, 1);
+                    };
+
+                    $scope.getDevicesAndSensors = function () {
                         var data = [];
                         angular.forEach($scope.sensors, function (sensor) {
                             data.push(sensor);
@@ -237,7 +248,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
 
                         Rpc.readSensor($scope.sensorId)
                             .success(function (reading) {
-                                console.log("Success and read Sensor " + $scope.sensorId + " = " + reading);
+                                console.log("Success and read Sensor " + $scope.sensorId + " = ", reading );
                                 $scope.sensor1Reading = reading.result;
                             });
                     };
@@ -245,12 +256,13 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                     var updateReading = function() {
                         Rpc.readSensors()
                                 .success(function (reading) {
-                                    console.log("Success and read = " + reading.result);
+//                                    console.log("Success and read = ", reading.result);
                                     $scope.sensorReadings = reading.result;
                                 });
                     }
 
-                    var updateReadingInterval = $interval(updateReading, 500);
+                    // TODO: find out if this needs to be stopped when the nav changes
+                    var updateReadingInterval = $interval(updateReading, 2500);
 
                     // listen on DOM destroy (removal) event, and cancel the next UI update
                     // to prevent updating time after the DOM element was removed.

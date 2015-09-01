@@ -1,8 +1,9 @@
 import logging
-from lib import utils, operator, evaluator, gpio
+from lib import utils, operator, gpio
 from lib.basehandler import RpcHandler
 from lib.jsonrpc import ServerException
 import models
+
 
 
 class ApiHandler(RpcHandler):
@@ -110,6 +111,7 @@ class ApiHandler(RpcHandler):
         rule.label = data.get('label')
         rule.enabled = data.get('enabled') == '1'
         rule.set_conditions(data.get('conditions'))
+        rule.set_actions(data.get('actions'))
         rule.save()
 
         return rule.to_client()
@@ -139,9 +141,12 @@ class ApiHandler(RpcHandler):
 
     def run_rule(self, rule_id):
 
-        run = evaluator.Evaluate(models.Rule.get_by_id(rule_id))
+        # Get the rule
+        rule = models.Rule.get_by_id(rule_id)
 
-        return run.evaluate()
+        result = rule.run()
+
+        return result
 
     # POC Section
     def toggle_led(self, on_off):
@@ -161,18 +166,18 @@ class ApiHandler(RpcHandler):
 
     def read_sensor(self, id):
 
-        reading = models.Sensor.get_by_key("Sensors/" + id + "/value", -1)
+        reading = models.Sensor.get_by_key("Sensor/" + str(id) + "/value", -1)
 
-        return reading
+        return round(reading, 3)
 
     def read_sensors(self):
 
         logging.debug("Running read_sensors...")
 
-        all_pin_readings = {"P9_33": round(gpio.read("P9_33"), 4),
-                            "P9_35": round(gpio.read("P9_35"), 4), "P9_36": round(gpio.read("P9_36"), 4),
-                            "P9_37": round(gpio.read("P9_37"), 4), "P9_38": round(gpio.read("P9_38"), 4),
-                            "P9_39": round(gpio.read("P9_39"), 4), "P9_40": round(gpio.read("P9_40"), 4)}
+        all_pin_readings = {"P9_33": round(gpio.read("P9_33"), 3),
+                            "P9_35": round(gpio.read("P9_35"), 3), "P9_36": round(gpio.read("P9_36"), 3),
+                            "P9_37": round(gpio.read("P9_37"), 3), "P9_38": round(gpio.read("P9_38"), 3),
+                            "P9_39": round(gpio.read("P9_39"), 3), "P9_40": round(gpio.read("P9_40"), 3)}
 
         logging.debug("Done with read_sensors and found " + str(all_pin_readings))
 

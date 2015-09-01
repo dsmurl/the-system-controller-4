@@ -4,28 +4,30 @@ import operator
 import models
 
 
-class Evaluate(object):
+class Evaluator(object):
 
     def __init__(self, rule):
         self.rule = rule
         self.operators = utils.get_members_by_parent(operator, operator.Operator)
 
     def evaluate(self):
-        """Runs through rule conditions and execute rule action if conditions met
+        """Runs through each rule conditions and execute rule action if conditions met
         :return:
         """
+
         for condition in self.rule.get_conditions():
             if not self._evaluate(condition):
-                return False
+                logging.debug('Not Executing action.')
+                return False  # Found a condition that was false so bail
 
-        # todo do action rule.
         return True
 
     def _evaluate(self, condition):
-        """Runs through each condition and returns True or False
+        """Runs through a single condition and returns True or False
         :param condition:
         :return:
         """
+
         first, op, second = condition
 
         val1 = models.BaseModel.get_by_key(first)
