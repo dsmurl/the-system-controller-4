@@ -261,7 +261,8 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                                 });
                     }
 
-                    // var updateReadingInterval = $interval(updateReading, 500);
+                    // TODO: find out if this needs to be stopped when the nav changes
+                    var updateReadingInterval = $interval(updateReading, 2500);
 
                     // listen on DOM destroy (removal) event, and cancel the next UI update
                     // to prevent updating time after the DOM element was removed.
