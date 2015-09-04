@@ -46,8 +46,8 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                             $scope.sensors = r.result;
                         });
 
-                    $scope.deleteSensor = function (index) {
-                        var sensorId = $scope.sensors[index].id;
+                    $scope.deleteSensor = function ( index ) {
+                        var sensorId = $scope.sensors[ index ].id;
                         Rpc.deleteSensor(sensorId)
                             .success(function (r) {
                                 if (r.result) {
@@ -61,6 +61,19 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                             $scope.sensor_values = values;
                         });
                     });
+
+                    $scope.sensorRead = function ( index ) {
+                        var sensorId = $scope.sensors[ index ].id;
+                        console.log("Reading sensor " + sensorId);
+
+                        Rpc.readSensor( sensorId )
+                            .success(function (r) {
+                                console.log("Success and read Sensor " + sensorId + " = ", r);
+				                console.log("sensors", $scope.sensors);
+
+                                $scope.sensors[ index ].value =  r.result;
+                            });
+                    };
                 }]
             })
             .when('/sensor/:id', {
@@ -125,7 +138,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         });
 
                     $scope.deleteRule = function (index) {
-                        var ruleId = $scope.sensors[index].id;
+                        var ruleId = $scope.rules[index].id;
                         Rpc.deleteRule(ruleId)
                             .success(function (r) {
                                 if (r.result) {
@@ -168,7 +181,15 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         $scope.rule.conditions.splice(index, 1);
                     };
 
-                    $scope.getDeviceAndSensors = function () {
+                    $scope.addAction = function () {
+                        $scope.rule.actions.push([null, null]);
+                    };
+
+                    $scope.deleteAction = function (index) {
+                        $scope.rule.actions.splice(index, 1);
+                    };
+
+                    $scope.getDevicesAndSensors = function () {
                         var data = [];
                         angular.forEach($scope.sensors, function (sensor) {
                             data.push(sensor);
@@ -202,14 +223,16 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                 }]
             })
             .when('/poc', {
-                templateUrl: 'html/poc.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
+                templateUrl: 'html/poc.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', '$interval', function ($scope, $routeParams, Rpc, $location, $interval) {
+
+                    ////  Toggle LED section
                     $scope.led_value = false;
 
                     console.log("init led_value = " + $scope.led_value);
 
                     // Handler for the the toggle LED button click
                     $scope.toggleLed = function () {
-                    console.log("Called toggleLed with led_value = " + $scope.led_value)
+                        console.log("Called toggleLed with led_value = " + $scope.led_value);
 
                         Rpc.toggleLed(!$scope.led_value)    // Swap the led_value and call the RPC
                             .success(function (r) {
@@ -219,6 +242,41 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                                 $scope.led_value = ! $scope.led_value;
                             });
                     };
+
+
+
+                    //// Read sensor id 1
+                    $scope.sensorId = 1;
+                    $scope.sensor1Reading = -1;
+                    $scope.sensorReadings = {}
+
+                    $scope.sensorRead = function () {
+                        console.log("Reading sensor " + $scope.sensorId);
+
+                        Rpc.readSensor($scope.sensorId)
+                            .success(function (reading) {
+                                console.log("Success and read Sensor " + $scope.sensorId + " = ", reading );
+                                $scope.sensor1Reading = reading.result;
+                            });
+                    };
+
+                    var updateReading = function() {
+                        Rpc.readSensors()
+                                .success(function (reading) {
+//                                    console.log("Success and read = ", reading.result);
+                                    $scope.sensorReadings = reading.result;
+                                });
+                    }
+
+                    // TODO: find out if this needs to be stopped when the nav changes
+                    var updateReadingInterval = $interval(updateReading, 2500);
+
+                    // listen on DOM destroy (removal) event, and cancel the next UI update
+                    // to prevent updating time after the DOM element was removed.
+                    // TODO: find out why this doesn't work
+//                    element.on('$destroy', function() {
+//                    $interval.cancel(updateReadingInterval);
+//                    });
                 }]
             })
             .when('/logs', {
@@ -288,8 +346,18 @@ angular.module('appServices', ['angular-json-rpc'])
                     return rpcRequest('run_rule', {rule_id: id});
                 },
 
+
+                // POC section
                 toggleLed: function (desiredSwitchValue) {
                     return rpcRequest('toggle_led', {on_off: desiredSwitchValue});
+                },
+
+                readSensor: function (sensor_id) {
+                    return rpcRequest('read_sensor', {id: sensor_id});
+                },
+
+                readSensors: function () {
+                    return rpcRequest('read_sensors', {});
                 }
             };
         }]);

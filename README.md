@@ -1,4 +1,4 @@
-# System Controller V4
+# DIY System Controller V4
 The working code of the System Conroller V4 designed for grass roots industrial systems management.
 
 
@@ -26,9 +26,15 @@ Make the networking through the router work.  Change the networking over to prim
 	    netmask 255.255.255.0
 	    gateway 192.168.0.1
 
-Now take the Beaglebone off the USB connection and add power to from the AC adapter and give it a hard line connection to your network router.  It needs it's own network address and internet access to continue to install the code and the dependencies.  The USB connection has trouble providing the BeagleBone with outer web.
+Now take the Beaglebone off the USB connection and add power to from the AC adapter and give it a hard line connection to your network router.  
 
-Set the correct time:
+It needs it's own network address and internet access at this point to continue to install the code and the dependencies.  The USB connection has trouble providing the BeagleBone with outer web.
+
+So, now we can shell into the BeagleBone with the USERNAME and password you created above.  You will need to also remember the address line that you added to the /etc/network/interfaces file.  Shell into the BeagleBone now like this:
+
+	:> ssh USERNAME@IP_ADDRESS_YOU_SET
+
+Once you are in, set the correct time:
 
 	:> sudo ntpdate pool.ntp.org
 
@@ -38,7 +44,7 @@ pins from python:
 	:> sudo apt-get update
 	:> sudo apt-get install build-essential python-setuptools python-pip python-smbus
 
-Install the IO lib through pip and other dependencies:
+Install the IO lib through pip and other dependencies.  This took around 10 minutes on my BeagleBone so don't think it crashed.
 
 	:> sudo pip install Adafruit_BBIO gevent webapp2 webob python-memcached ws4py jinja2 peewee
 
@@ -54,15 +60,23 @@ Disable Apache2 ( or get it off listening to port 8080):
 	
 	:> update-rc.d apache2 disable
 
+Also, turn Apache2 off so that we can run our code through 8080 soon:
+
+	:> sudo service apache2 stop
+
 For later reference, you can add the apache auto-start back in with:
 
 	:> update-rc.d apache2 enable
 
 Install the code.  Find the revision you want on GitHub.com and git clone the current code or preferred revision, like:
 
-	:> git clone https://github.com/dsmurl/SystemController4.git
+	:> git clone https://github.com/dsmurl/DiySystemController4.git
 
 Run the code and check the site:
 
-	:> cd SystemController4
+	:> cd DiySystemController4
 	:> sudo python wsgi.py
+
+Run with debug logging by adding --log_level=debug
+
+	:> sudo python wsgi.py --log_level=debug
