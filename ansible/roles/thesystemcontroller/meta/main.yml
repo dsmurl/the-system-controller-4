@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Rémy Greinhofer
+  description: Deploy the System Controller software
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+    - name: Debian
+    - jessie
+  categories:
+    - system
+dependencies: []
