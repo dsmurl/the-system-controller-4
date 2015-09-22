@@ -8,7 +8,7 @@ from ws4py.websocket import WebSocket
 import config
 from webapp2_extras import jinja2
 from webapp2_extras import sessions
-from lib import jsonrpc
+from lib import jsonrpc, utils
 
 # Initialize constants & stuff for static files
 
@@ -194,9 +194,19 @@ class RpcHandler(BaseHandler):
 
 class BaseWebSocket(WebSocket):
 
+    def closed(self, code, reason=None):
+        super(BaseWebSocket, self).closed(code, reason)
+        utils.CLIENTS.remove(self)
+
+    def opened(self):
+        super(BaseWebSocket, self).opened()
+        utils.CLIENTS.append(self)
+
     def received_message(self, message):
         data = json.loads(message.data)
         result = getattr(self, data['event'])(**data['data'])
 
-        # if result:
-        #     self.send(result, message.is_binary)
+        self.send(json.dumps({
+            'event': data['event'],
+            'result': result
+        }), message.is_binary)

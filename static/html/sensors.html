@@ -3,6 +3,7 @@
         <tr>
             <th>ID</th>
             <th>Sensor</th>
+            <th>Reading</th>
             <th>Analog Pin</th>
             <th width='150px'>Value</th>
             <th width='150px'></th>
@@ -12,6 +13,7 @@
         <tr data-ng-repeat="sensor in sensors">
             <td>{{ sensor.id }}</td>
             <td>{{ sensor.label }}</td>
+            <td>{{ $parent.sensor_values[sensor.id] }}</td>
             <td>{{ sensor.pin }}</td>
             <td>
                 <a class="btn btn-default" data-ng-click="sensorRead( $index )">Read</a> &nbsp &nbsp {{ sensor.value }}
@@ -24,7 +26,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="4">
+            <td colspan="5">
                 <a class="btn btn-default pull-right" href="#/sensor/0">Add</a>
             </td>
         </tr>

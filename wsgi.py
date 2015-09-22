@@ -48,6 +48,7 @@ if __name__ == '__main__':
     greenlets = [
         gevent.spawn(http_server.serve_forever),
         gevent.spawn(models.Rule.background_run_rules),
+        gevent.spawn(models.Sensor.background_send_values),
         gevent.spawn(ws_server.serve_forever)
     ]
 

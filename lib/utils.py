@@ -8,17 +8,15 @@ import sys
 import config
 
 DB = None
+CLIENTS = []
 
 
 def background_service():
     """
     :return:
     """
-    ctr = 0
     while 1:
-        # do stuff here
-        # logging.debug('{}'.format(ctr))
-        ctr += 1
+
         gevent.sleep(1)
 
 

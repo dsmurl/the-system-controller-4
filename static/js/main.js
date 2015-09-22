@@ -2,7 +2,7 @@
 
 
 angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
-    .run(function ($websocket) {
+    .run(['$websocket', '$rootScope', function ($websocket, $rootScope) {
         var ws = $websocket.$new('ws://' + window.location.hostname + ':9000');
 
         ws.$on('$open', function () {
@@ -13,19 +13,17 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                 });
         });
 
-        ws.$on('pong', function (data) {
-            console.log('The websocket server has sent the following data:');
-            console.log(data);
-
-            ws.$close();
+        ws.$on('$message', function (data) {
+            $rootScope.$broadcast(data.event, data.result);
         });
 
         ws.$on('$close', function () {
             console.log('WS Closed');
         });
-    })
+    }])
     .run(function() {
         // Add in the mobile menu closing code
+        // todo make this use angular variables avoid using jquery
          var navMenu= $("#navbar-collapse");
          navMenu.on("click", "a", null, function () {
              navMenu.collapse('hide');
@@ -40,6 +38,9 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
             })
             .when('/sensors', {
                 templateUrl: 'html/sensors.html',   controller: ['$scope', 'Rpc', function ($scope, Rpc) {
+
+                    $scope.sensor_values = {};
+
                     Rpc.listSensor()
                         .success(function (r) {
                             $scope.sensors = r.result;
@@ -53,7 +54,13 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                                     $scope.sensors.splice(index, 1);
                                 }
                             });
-                    }
+                    };
+
+                    $scope.$on('sensors', function (event, values) {
+                        $scope.$apply(function () {
+                            $scope.sensor_values = values;
+                        });
+                    });
 
                     $scope.sensorRead = function ( index ) {
                         var sensorId = $scope.sensors[ index ].id;
@@ -62,7 +69,7 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                         Rpc.readSensor( sensorId )
                             .success(function (r) {
                                 console.log("Success and read Sensor " + sensorId + " = ", r);
-				console.log("sensors", $scope.sensors);
+				                console.log("sensors", $scope.sensors);
 
                                 $scope.sensors[ index ].value =  r.result;
                             });
