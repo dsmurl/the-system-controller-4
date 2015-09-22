@@ -1,0 +1,50 @@
+---
+- name: Install packages for Debian
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 86400
+  when: ansible_pkg_mgr == 'apt'
+  with_items:
+    - build-essential
+    - ntpdate
+    - python
+    - python-dev
+    - python-pip
+    - python-setuptools
+    - python-smbus
+    - python-virtualenv
+  sudo: yes
+
+- name: Clone the repository
+  git:
+    repo: https://github.com/dsmurl/TheSystemController4.git
+    dest: ~/TheSystemController4
+
+- name: Create python virtual environment
+  command: virtualenv -p python2.7 ~/.venvs/TheSystemController4
+  args:
+    creates: ~/.venvs/TheSystemController4
+  changed_when: False
+
+- name: Install python packages from requirements
+  pip:
+    requirements: ~/TheSystemController4/requirements.txt
+    state: latest
+    virtualenv: ~/.venvs/TheSystemController4
+
+- name: install zuul in virtualenv
+  pip:
+    name: gunicorn
+    state: latest
+    virtualenv: ~/.venvs/TheSystemController4
+
+
+- name: Start the application
+  shell: |
+    . ~/.venvs/TheSystemController4/bin/activate
+    gunicorn -b 0.0.0.0:8080 -w4 wsgi:app &
+  args:
+    chdir: ~/TheSystemController4
+  changed_when: False

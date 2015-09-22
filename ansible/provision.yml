@@ -1,0 +1,9 @@
+---
+- hosts: thesystemcontroller
+  vars:
+    # Liquidprompt.
+    liquidprompt_apply_all_users: True
+
+  roles:
+    - sbani.liquidprompt
+    - thesystemcontroller
