@@ -17,6 +17,10 @@ Add a personal user/password and add them to the admin group.  admin is needed t
 	:> adduser USERNAME
 	:> usermod -a -G admin USERNAME
 
+Also, you will want to add this user to the sudoers file with the following commands:
+
+	:> sudo adduser dsmurl sudo
+
 Make the networking through the router work.  Change the networking over to primary eth0 availability by editing /etc/network/interfaces.  Edit the primary section to look like this:
 
 	# The primary network interface
