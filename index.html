@@ -43,6 +43,11 @@
 :&gt; usermod -a -G admin USERNAME
 </code></pre>
 
+<p>Also, you will want to add this user to the sudoers file with the following commands:</p>
+
+<pre><code>:&gt; sudo adduser dsmurl sudo
+</code></pre>
+
 <p>Make the networking through the router work.  Change the networking over to primary eth0 availability by editing /etc/network/interfaces.  Edit the primary section to look like this:</p>
 
 <pre><code># The primary network interface
@@ -53,9 +58,16 @@ iface eth0 inet static
     gateway 192.168.0.1
 </code></pre>
 
-<p>Now take the Beaglebone off the USB connection and add power to from the AC adapter and give it a hard line connection to your network router.  It needs it's own network address and internet access to continue to install the code and the dependencies.  The USB connection has trouble providing the BeagleBone with outer web.</p>
+<p>Now take the Beaglebone off the USB connection and add power to from the AC adapter and give it a hard line connection to your network router.  </p>
 
-<p>Set the correct time:</p>
+<p>It needs it's own network address and internet access at this point to continue to install the code and the dependencies.  The USB connection has trouble providing the BeagleBone with outer web.</p>
+
+<p>So, now we can shell into the BeagleBone with the USERNAME and password you created above.  You will need to also remember the address line that you added to the /etc/network/interfaces file.  Shell into the BeagleBone now like this:</p>
+
+<pre><code>:&gt; ssh USERNAME@IP_ADDRESS_YOU_SET
+</code></pre>
+
+<p>Once you are in, set the correct time:</p>
 
 <pre><code>:&gt; sudo ntpdate pool.ntp.org
 </code></pre>
@@ -67,7 +79,7 @@ pins from python:</p>
 :&gt; sudo apt-get install build-essential python-setuptools python-pip python-smbus
 </code></pre>
 
-<p>Install the IO lib through pip and other dependencies:</p>
+<p>Install the IO lib through pip and other dependencies.  This took around 10 minutes on my BeagleBone so don't think it crashed.</p>
 
 <pre><code>:&gt; sudo pip install Adafruit_BBIO gevent webapp2 webob python-memcached ws4py jinja2 peewee
 </code></pre>
@@ -87,6 +99,11 @@ pins from python:</p>
 <pre><code>:&gt; update-rc.d apache2 disable
 </code></pre>
 
+<p>Also, turn Apache2 off so that we can run our code through 8080 soon:</p>
+
+<pre><code>:&gt; sudo service apache2 stop
+</code></pre>
+
 <p>For later reference, you can add the apache auto-start back in with:</p>
 
 <pre><code>:&gt; update-rc.d apache2 enable
@@ -94,17 +111,22 @@ pins from python:</p>
 
 <p>Install the code.  Find the revision you want on GitHub.com and git clone the current code or preferred revision, like:</p>
 
-<pre><code>:&gt; git clone https://github.com/dsmurl/SystemController4.git
+<pre><code>:&gt; git clone https://github.com/dsmurl/DiySystemController4.git
 </code></pre>
 
 <p>Run the code and check the site:</p>
 
-<pre><code>:&gt; cd SystemController4
+<pre><code>:&gt; cd DiySystemController4
 :&gt; sudo python wsgi.py
 </code></pre>
 
+<p>Run with debug logging by adding --log_level=debug</p>
+
+<pre><code>:&gt; sudo python wsgi.py --log_level=debug
+</code></pre>
+
 <h1>
-<a id="check-back-for-updates" class="anchor" href="#check-back-for-updates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Check back for updates</h1>
+<a id="check-back-for-updates" class="anchor" href="#check-back-for-updates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Check back for updates!!!</h1>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/dsmurl/TheSystemController4">The System Controller 4</a> is maintained by <a href="https://github.com/dsmurl">dsmurl</a>.</span>
