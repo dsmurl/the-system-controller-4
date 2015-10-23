@@ -20,6 +20,13 @@ Add a personal user/password and add them to the admin group.  admin is needed t
 Also, you will want to add this user to the sudoers file with the following commands:
 
 	:> sudo adduser USERNAME sudo
+	
+BeagleBoard.org can't ship support for everything on release day, so they push out new kernels as fixes, support for new capes, etc are posted on the BeagleBoard.org mainline list.  Run the following to upgrade the kernel:
+
+	:> cd /opt/scripts/tools/
+	:> git pull
+	:> sudo ./update_kernel.sh
+	:> sudo reboot
 
 Make the networking through the router work.  Change the networking over to primary eth0 availability by editing /etc/network/interfaces.  Edit the primary section to look like this:
 
