@@ -30,7 +30,7 @@ BeagleBoard.org can't ship support for everything on release day, so they push o
 	
 You will now be kicked back out to your host computer's terminal prompt.  Once the Beagle Bone has had a minute to rebbot, you will want to shell back into it with the instructions for root shell at the very first of this readme.  Remember to use the new password that you set and then continue.
 
-Make the networking through the router work.  Change the networking over to primary eth0 availability by editing /etc/network/interfaces.  Edit the primary section to look like this:
+Make the networking through the router work.  Change the networking over to primary eth0 availability by editing /etc/network/interfaces.  In this example below, which you can copy, we are choosing 192.168.0.50 as the IP address but it can be aligned in different ways.  Remember what you set it to because we will use this address in the end to view your system controller.  Edit the primary section to look like this:
 
 	# The primary network interface
 	allow-hotplug eth0
@@ -96,3 +96,10 @@ Run the code and check the site:
 Run with debug logging by adding --log_level=debug
 
 	:> sudo python wsgi.py --log_level=debug
+	
+To see your system controller, with a browser, go to the static IP address you set in the network setting section above on the port 8080.  In our example it was 192.168.0.50.  So, go to the following address:
+
+	192.168.0.50:8080
+
+Enjoy and let me know what you think.  Please feel free to check out the code, project feature requests, and milestones to help me code some.  Thanks for checking out my project!
+
