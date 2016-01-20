@@ -42,7 +42,7 @@ if __name__ == '__main__':
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 
-    http_server = WSGIServer(('', 8080), app)
+    http_server = WSGIServer(('', 80), app)
     ws_server = WSGIServer(('', 9000), WebSocketWSGIApplication(handler_cls=ws.Commands))
 
     greenlets = [
