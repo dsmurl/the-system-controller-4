@@ -28,7 +28,7 @@ BeagleBoard.org can't ship support for everything on release day, so they push o
 	:> sudo ./update_kernel.sh
 	:> sudo reboot
 	
-You will now be kicked back out to your host computers terminal prompt.  Once the Beagle Bone has had a minute to rebbot, you will want to shell back into it with the instructions for root shell at the very first of this readme.  Remember to use the new password that you set and then continue.
+You will now be kicked back out to your host computer's terminal prompt.  Once the Beagle Bone has had a minute to rebbot, you will want to shell back into it with the instructions for root shell at the very first of this readme.  Remember to use the new password that you set and then continue.
 
 Make the networking through the router work.  Change the networking over to primary eth0 availability by editing /etc/network/interfaces.  Edit the primary section to look like this:
 
@@ -60,7 +60,7 @@ Now that you have all the libraries you want installed from apt-get, you can do 
 
 	:> sudo apt-get dist-upgrade
 
-Install the IO lib through pip and other dependencies.  This took around 10 minutes on my BeagleBone so don't think it crashed.
+Install the IO lib through pip and other dependencies.  This took around 10 minutes on my BeagleBone.  So, don't think it crashed.
 
 	:> sudo pip install Adafruit_BBIO gevent webapp2 webob python-memcached ws4py jinja2 peewee
 
@@ -82,7 +82,7 @@ Also, turn Apache2 off so that we can run our code through 8080 soon:
 
 For later reference, you can add the apache auto-start back in with:
 
-	:> update-rc.d apache2 enable
+	:> sudo update-rc.d apache2 enable
 
 Install the code.  Find the revision you want on GitHub.com and git clone the current code or preferred revision, like:
 
