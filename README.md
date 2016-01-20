@@ -27,6 +27,8 @@ BeagleBoard.org can't ship support for everything on release day, so they push o
 	:> git pull
 	:> sudo ./update_kernel.sh
 	:> sudo reboot
+	
+You will now be kicked back out to your host computers terminal prompt.  Once the Beagle Bone has had a minute to rebbot, you will want to shell back into it with the instructions for root shell at the very first of this readme.  Remember to use the new password that you set and then continue.
 
 Make the networking through the router work.  Change the networking over to primary eth0 availability by editing /etc/network/interfaces.  Edit the primary section to look like this:
 
@@ -49,11 +51,14 @@ Once you are in, set the correct time:
 
 	:> sudo ntpdate pool.ntp.org
 
-Install the python pin IO library dependencies.  Turns on and off pins, reads analog input
-pins from python:
+Install the python pin IO library dependencies.  These packages allow your your python code to turn on and off pins and read analog input pins from python.
 
 	:> sudo apt-get update
 	:> sudo apt-get install build-essential python-setuptools python-pip python-smbus
+	
+Now that you have all the libraries you want installed from apt-get, you can do a full debian distribution upgrade to make sure everything installed is up to date.  This may take several minutes.
+
+	:> sudo apt-get dist-upgrade
 
 Install the IO lib through pip and other dependencies.  This took around 10 minutes on my BeagleBone so don't think it crashed.
 
