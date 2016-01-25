@@ -8,9 +8,13 @@ To ssh in, plug in BeagleBone via USB and then:
 
 	ssh root@192.168.7.2
 
-Change root to password, ssh in as root then:
+The default root password on these systems is known to default to empty.  So, for security, change root user password with this command to something only you know and don't forget it:
 
 	:> passwd
+	
+These systems have an out of the box user named 'debian'. The debian user has a known default password of 'temppwd'.  So, change the debian user password with this command to something only you know and don't forget it:
+
+	:> passwd debian
 
 Add a personal user/password and add them to the admin group.  admin is needed to have sudo rights:
 
