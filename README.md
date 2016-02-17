@@ -90,11 +90,11 @@ For later reference, you can add the apache auto-start back in with:
 
 Install the code.  Find the revision you want on GitHub.com and git clone the current code or preferred revision, like:
 
-	:> git clone https://github.com/dsmurl/DiySystemController4.git
+	:> git clone https://github.com/dsmurl/TheSystemController4.git
 
 Run the code and check the site:
 
-	:> cd DiySystemController4
+	:> cd TheSystemController4
 	:> sudo python wsgi.py
 
 Run with debug logging by adding --log_level=debug
