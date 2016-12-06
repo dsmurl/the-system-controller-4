@@ -1,5 +1,5 @@
 import logging
-from gevent.pywsgi import WSGIServer
+# from gevent.pywsgi import WSGIServer
 import webapp2
 import gevent
 import config
@@ -42,8 +42,8 @@ if __name__ == '__main__':
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 
-    http_server = WSGIServer(('', 8080), app)
-    ws_server = WSGIServer(('', 9000), WebSocketWSGIApplication(handler_cls=ws.Commands))
+    http_server = WSGIServer(('', config.http_config), app)
+    ws_server = WSGIServer(('', config.web_socket_port), WebSocketWSGIApplication(handler_cls=ws.Commands))
 
     greenlets = [
         gevent.spawn(http_server.serve_forever),

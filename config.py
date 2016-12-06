@@ -24,3 +24,6 @@ rate_limit = None
 
 # todo move this maybe /var/somewhere
 db = '/tmp/systemcontroller.db'
+
+http_config = 8080
+web_socket_port = 9000

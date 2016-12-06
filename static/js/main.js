@@ -77,7 +77,9 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
                 }]
             })
             .when('/sensor/:id', {
-                templateUrl: 'html/sensor-edit.html',   controller: ['$scope', '$routeParams', 'Rpc', '$location', function ($scope, $routeParams, Rpc, $location) {
+                templateUrl: 'html/sensor-edit.html',
+                controller: ['$scope', '$routeParams', 'Rpc', '$location',
+                    function ($scope, $routeParams, Rpc, $location) {
                     var sensorId = parseInt($routeParams.id);
 
                     Rpc.getSensor(sensorId)
