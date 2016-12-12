@@ -1,9 +1,10 @@
 import logging
+
 from lib import utils, operator, gpio
 from lib.basehandler import RpcHandler
-from lib.jsonrpc import ServerException
-import models
-
+from models.Sensor import Sensor
+from models.Device import Device
+from models.Rule import Rule
 
 
 class ApiHandler(RpcHandler):
@@ -11,25 +12,25 @@ class ApiHandler(RpcHandler):
     # Sensor Section
     def list_sensor(self):
 
-        sensors = models.Sensor.select().order_by(models.Sensor.id)
+        sensors = Sensor.select().order_by(Sensor.id)
 
         return [sensor.to_client() for sensor in sensors]
 
     def get_sensor(self, sensor_id):
 
-        sensor = models.Sensor.get_by_id(sensor_id)
+        sensor = Sensor.get_by_id(sensor_id)
 
         if not sensor:
-            sensor = models.Sensor()
+            sensor = Sensor()
 
         return sensor.to_client()
 
     def save_sensor(self, data):
         id = data.get('id')
         if id:
-            sensor = models.Sensor.get_by_id(id)
+            sensor = Sensor.get_by_id(id)
         else:
-            sensor = models.Sensor()
+            sensor = Sensor()
 
         sensor.label = data.get('label')
         sensor.pin = data.get('pin')
@@ -39,7 +40,7 @@ class ApiHandler(RpcHandler):
 
     def delete_sensor(self, sensor_id):
 
-        sensor = models.Sensor.get_by_id(sensor_id)
+        sensor = Sensor.get_by_id(sensor_id)
 
         if sensor:
             sensor.delete_instance()
@@ -49,25 +50,25 @@ class ApiHandler(RpcHandler):
     # Device Section
     def list_device(self):
 
-        devices = models.Device.select().order_by(models.Device.id)
+        devices = Device.select().order_by(Device.id)
 
         return [device.to_client() for device in devices]
 
     def get_device(self, device_id):
 
-        device = models.Device.get_by_id(device_id)
+        device = Device.get_by_id(device_id)
 
         if not device:
-            device = models.Device()
+            device = Device()
 
         return device.to_client()
 
     def save_device(self, data):
         id = data.get('id')
         if id:
-            device = models.Device.get_by_id(id)
+            device = Device.get_by_id(id)
         else:
-            device = models.Device()
+            device = Device()
 
         device.label = data.get('label')
         device.pin = data.get('pin')
@@ -78,7 +79,7 @@ class ApiHandler(RpcHandler):
 
     def delete_device(self, device_id):
 
-        device = models.Device.get_by_id(device_id)
+        device = Device.get_by_id(device_id)
 
         if device:
             device.delete_instance()
@@ -88,25 +89,25 @@ class ApiHandler(RpcHandler):
     # Rule Section
     def list_rule(self):
 
-        rules = models.Rule.select().order_by(models.Rule.id)
+        rules = Rule.select().order_by(Rule.id)
 
         return [rule.to_client() for rule in rules]
 
     def get_rule(self, rule_id):
 
-        rule = models.Rule.get_by_id(rule_id)
+        rule = Rule.get_by_id(rule_id)
 
         if not rule:
-            rule = models.Rule()
+            rule = Rule()
 
         return rule.to_client()
 
     def save_rule(self, data):
         id = data.get('id')
         if id:
-            rule = models.Rule.get_by_id(id)
+            rule = Rule.get_by_id(id)
         else:
-            rule = models.Rule()
+            rule = Rule()
 
         rule.label = data.get('label')
         rule.enabled = data.get('enabled') == '1'
@@ -118,7 +119,7 @@ class ApiHandler(RpcHandler):
 
     def delete_rule(self, rule_id):
 
-        rule = models.Rule.get_by_id(rule_id)
+        rule = Rule.get_by_id(rule_id)
 
         if rule:
             rule.delete_instance()
@@ -142,7 +143,7 @@ class ApiHandler(RpcHandler):
     def run_rule(self, rule_id):
 
         # Get the rule
-        rule = models.Rule.get_by_id(rule_id)
+        rule = Rule.get_by_id(rule_id)
 
         result = rule.run()
 
@@ -166,7 +167,7 @@ class ApiHandler(RpcHandler):
 
     def read_sensor(self, id):
 
-        reading = models.Sensor.get_by_key("Sensor/" + str(id) + "/value", -1)
+        reading = Sensor.get_by_key("Sensor/" + str(id) + "/value", -1)
 
         return round(reading, 3)
 

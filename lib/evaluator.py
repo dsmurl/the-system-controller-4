@@ -1,7 +1,8 @@
 import logging
-from lib import utils
+
 import operator
-import models
+from lib import utils
+from models.BaseModel import BaseModel
 
 
 class Evaluator(object):
@@ -30,8 +31,8 @@ class Evaluator(object):
 
         first, op, second = condition
 
-        val1 = models.BaseModel.get_by_key(first)
-        val2 = models.BaseModel.get_by_key(second)
+        val1 = BaseModel.get_by_key(first)
+        val2 = BaseModel.get_by_key(second)
         op_val = self.operators[op]()
         result = op_val.evaluate(val1, val2)
 

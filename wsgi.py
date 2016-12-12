@@ -1,21 +1,23 @@
 import logging
-# from gevent.pywsgi import WSGIServer
+
+import gevent.monkey
 import webapp2
-import gevent
-import config
-import routes
-import models
-from services import ws
-from web import errors
-from lib import basehandler, utils
-from ws4py.websocket import EchoWebSocket
 from ws4py.server.geventserver import WSGIServer
 from ws4py.server.wsgiutils import WebSocketWSGIApplication
-import gevent.monkey
+
+import config
+import routes
+from lib import basehandler
+from models.Sensor import Sensor
+from models.Rule import Rule
+from models import modelUtils
+from services import ws
+from web import errors
+
 gevent.monkey.patch_all()
 
 
-models.create_tables()
+modelUtils.create_tables()
 
 app = webapp2.WSGIApplication(debug=basehandler.IS_DEV, config=config.webapp2_config, routes=routes.get_routes())
 
@@ -47,8 +49,8 @@ if __name__ == '__main__':
 
     greenlets = [
         gevent.spawn(http_server.serve_forever),
-        gevent.spawn(models.Rule.background_run_rules),
-        gevent.spawn(models.Sensor.background_send_values),
+        gevent.spawn(Rule.background_run_rules),
+        gevent.spawn(Sensor.background_send_values),
         gevent.spawn(ws_server.serve_forever)
     ]
 

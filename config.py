@@ -16,14 +16,13 @@ webapp2_config = {
 # Remember that memcache can be evicted
 session_backend = 'mc_session'
 
-
 # Rate limiting settings
 # rate_limit = (200, 60) # 200 request / minute
 # rate_limit = (10000, 3600) # 10000 request / hour
 rate_limit = None
 
 # todo move this maybe /var/somewhere
-db = '/tmp/systemcontroller.db'
+db = '/tmp/theSystemController.db'
 
 http_config = 8080
 web_socket_port = 9000
