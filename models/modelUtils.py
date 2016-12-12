@@ -7,6 +7,9 @@ from playhouse.shortcuts import model_to_dict
 from models.BaseModel import BaseModel
 from lib import utils, gpio, operator
 import logging
+from models.Rule import Rule
+from models.Sensor import Sensor
+from models.Device import Device
 
 
 """
@@ -21,5 +24,7 @@ def create_tables():
     """
     db = utils.get_db()
     db.connect()
-    db.create_tables(utils.get_members_by_parent(__name__, BaseModel).values(), True)
+
+    # db.create_tables(utils.get_members_by_parent(models, BaseModel).values(), True)
+    db.create_tables([Sensor, Device, Rule], True)
     db.close()
