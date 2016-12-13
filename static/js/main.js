@@ -3,23 +3,23 @@
 
 angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
     .run(['$websocket', '$rootScope', function ($websocket, $rootScope) {
-        var ws = $websocket.$new('ws://' + window.location.hostname + ':9000');
+        // var ws = $websocket.$new('ws://' + window.location.hostname + ':9000');
+        //
+        // ws.$on('$open', function () {
+        //     console.log('WS Opened');
+        //     ws.$emit('add', {
+        //             a: 5,
+        //             b: 4
+        //         });
+        // });
 
-        ws.$on('$open', function () {
-            console.log('WS Opened');
-            ws.$emit('add', {
-                    a: 5,
-                    b: 4
-                });
-        });
-
-        ws.$on('$message', function (data) {
-            $rootScope.$broadcast(data.event, data.result);
-        });
-
-        ws.$on('$close', function () {
-            console.log('WS Closed');
-        });
+        // ws.$on('$message', function (data) {
+        //     $rootScope.$broadcast(data.event, data.result);
+        // });
+        //
+        // ws.$on('$close', function () {
+        //     console.log('WS Closed');
+        // });
     }])
     .run(function() {
         // Add in the mobile menu closing code
@@ -248,16 +248,15 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
 
 
                     //// Read sensor id 1
-                    $scope.sensorId = 1;
                     $scope.sensor1Reading = -1;
-                    $scope.sensorReadings = {}
+                    $scope.sensorReadings = {};
 
-                    $scope.sensorRead = function () {
-                        console.log("Reading sensor " + $scope.sensorId);
+                    $scope.sensorRead = function (sensor_id) {
+                        console.log("Reading sensor " + sensor_id);
 
-                        Rpc.readSensor($scope.sensorId)
+                        Rpc.readSensor(sensor_id)
                             .success(function (reading) {
-                                console.log("Success and read Sensor " + $scope.sensorId + " = ", reading );
+                                console.log("Success and read Sensor " + sensor_id + " = ", reading );
                                 $scope.sensor1Reading = reading.result;
                             });
                     };
@@ -268,10 +267,10 @@ angular.module('app', ['ngRoute', 'ngWebsocket', 'appServices'])
 //                                    console.log("Success and read = ", reading.result);
                                     $scope.sensorReadings = reading.result;
                                 });
-                    }
+                    };
 
                     // TODO: find out if this needs to be stopped when the nav changes
-                    var updateReadingInterval = $interval(updateReading, 2500);
+                    // var updateReadingInterval = $interval(updateReading, 2500);
 
                     // listen on DOM destroy (removal) event, and cancel the next UI update
                     // to prevent updating time after the DOM element was removed.
