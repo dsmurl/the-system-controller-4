@@ -51,17 +51,14 @@ def get_members_by_parent_from_package(package, parent):
     :return:
     """
 
-    import models
-
-    basemodel_children = {}
-    package = models
+    children = {}
     prefix = package.__name__ + "."
 
     for importer, modname, ispkg in pkgutil.iter_modules(package.__path__, prefix):
         new_members = get_members_by_parent_from_module(modname, parent)
-        basemodel_children.update(new_members)
+        children.update(new_members)
 
-    return basemodel_children
+    return children
 
 
 def get_members_by_parent_from_module(module, parent):
