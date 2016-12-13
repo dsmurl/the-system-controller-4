@@ -5,6 +5,7 @@ import datetime
 import gevent
 from peewee import SqliteDatabase
 import sys
+import pkgutil
 import config
 
 DB = None
@@ -44,11 +45,31 @@ def default_json_decode(obj):
     return millis
 
 
-def get_members_by_parent(module, parent):
-    """Get all models that extends BaseModel
+def get_members_by_parent_from_package(package, parent):
+    """ Get all classes that extends 'parent' from a package
 
     :return:
     """
+
+    import models
+
+    basemodel_children = {}
+    package = models
+    prefix = package.__name__ + "."
+
+    for importer, modname, ispkg in pkgutil.iter_modules(package.__path__, prefix):
+        new_members = get_members_by_parent_from_module(modname, parent)
+        basemodel_children.update(new_members)
+
+    return basemodel_children
+
+
+def get_members_by_parent_from_module(module, parent):
+    """ Get all classes that extends 'parent' from a module
+
+    :return:
+    """
+
     return dict(member
                 for member in inspect.getmembers(sys.modules[module if type(module) is str else module.__name__],
                                                  lambda c: inspect.isclass(c) and c.__base__ is parent))

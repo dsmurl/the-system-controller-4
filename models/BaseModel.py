@@ -49,7 +49,7 @@ class BaseModel(Model):
             if keys:
                 method = keys.pop(0)
 
-            entity = utils.get_members_by_parent(__name__, BaseModel)[model].get_by_id(int(primary_id))
+            entity = utils.get_members_by_parent_from_module(__name__, BaseModel)[model].get_by_id(int(primary_id))
 
             if not method:
                 return entity
@@ -69,7 +69,7 @@ class BaseModel(Model):
             model = keys.pop(0)
             primary_id = keys.pop(0)
 
-            entity = utils.get_members_by_parent(__name__, BaseModel)[model].get_by_id(int(primary_id))
+            entity = utils.get_members_by_parent_from_module(__name__, BaseModel)[model].get_by_id(int(primary_id))
 
             return entity
 

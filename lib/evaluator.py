@@ -9,7 +9,7 @@ class Evaluator(object):
 
     def __init__(self, rule):
         self.rule = rule
-        self.operators = utils.get_members_by_parent(operator, operator.Operator)
+        self.operators = utils.get_members_by_parent_from_module(operator, operator.Operator)
 
     def evaluate(self):
         """Runs through each rule conditions and execute rule action if conditions met

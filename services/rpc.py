@@ -128,7 +128,7 @@ class ApiHandler(RpcHandler):
 
     def list_operator(self):
 
-        operators = utils.get_members_by_parent(operator, operator.Operator)
+        operators = utils.get_members_by_parent_from_module(operator, operator.Operator)
         result = []
 
         for op in operators.values():

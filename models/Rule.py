@@ -16,7 +16,7 @@ class Rule(BaseModel):
 
     conditions = TextField(default='[]')
     actions = TextField(default='[]')
-    operators = utils.get_members_by_parent(operator, operator.Operator)
+    operators = utils.get_members_by_parent_from_module(operator, operator.Operator)
 
     def set_conditions(self, conditions):
         """Sample Format:
