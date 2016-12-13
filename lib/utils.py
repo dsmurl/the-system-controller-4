@@ -66,7 +66,6 @@ def get_members_by_parent_from_module(module, parent):
 
     :return:
     """
-
     return dict(member
                 for member in inspect.getmembers(sys.modules[module if type(module) is str else module.__name__],
                                                  lambda c: inspect.isclass(c) and c.__base__ is parent))

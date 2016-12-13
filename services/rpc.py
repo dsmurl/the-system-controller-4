@@ -8,7 +8,6 @@ from models.Rule import Rule
 
 
 class ApiHandler(RpcHandler):
-
     # Sensor Section
     def list_sensor(self):
 
@@ -72,7 +71,7 @@ class ApiHandler(RpcHandler):
 
         device.label = data.get('label')
         device.pin = data.get('pin')
-        device.value = False    # Always starts as False
+        device.value = False  # Always starts as False
         device.save()
 
         return device.to_client()
@@ -167,7 +166,11 @@ class ApiHandler(RpcHandler):
 
     def read_sensor(self, id):
 
+        print " ------------------- reading sensor id:  " + repr(id)
+
         reading = Sensor.get_by_key("Sensor/" + str(id) + "/value", -1)
+
+        print " ---------------  reading " + repr(reading)
 
         return round(reading, 3)
 
@@ -183,6 +186,3 @@ class ApiHandler(RpcHandler):
         logging.debug("Done with read_sensors and found " + str(all_pin_readings))
 
         return all_pin_readings
-
-
-

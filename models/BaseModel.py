@@ -6,6 +6,7 @@ from peewee import *
 from playhouse.shortcuts import model_to_dict
 from lib import utils, gpio, operator
 import logging
+import models
 
 
 class BaseModel(Model):
@@ -45,11 +46,15 @@ class BaseModel(Model):
             keys = key.split('/')
             model = keys.pop(0)
             primary_id = keys.pop(0)
+            print "primary_id: " + repr(primary_id)
             method = None
             if keys:
                 method = keys.pop(0)
+            print "method: " + repr(method)
 
-            entity = utils.get_members_by_parent_from_module(__name__, BaseModel)[model].get_by_id(int(primary_id))
+            entity = utils.get_members_by_parent_from_package(models, BaseModel)[model].get_by_id(int(primary_id))
+
+            print "Found Entity: " + repr(entity)
 
             if not method:
                 return entity
@@ -69,7 +74,7 @@ class BaseModel(Model):
             model = keys.pop(0)
             primary_id = keys.pop(0)
 
-            entity = utils.get_members_by_parent_from_module(__name__, BaseModel)[model].get_by_id(int(primary_id))
+            entity = utils.get_members_by_parent_from_package(models, BaseModel)[model].get_by_id(int(primary_id))
 
             return entity
 
